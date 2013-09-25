@@ -17,11 +17,13 @@ urlpatterns = patterns('',
 
     url(r'^auctioneer/home/$', home),
     url(r'^auctioneer/search/(?P<query>\w+)/$', search),
+    url(r'^auctioneer/account/create/$', create_account),
+    url(r'^auctioneer/account/edit/$', edit_account),
     url(r'^auctioneer/login/$', login),
     url(r'^auctioneer/logout/$', logout),
     url(r'^auctioneer/auction/(?P<id>\w+)/$', show_auction),
     url(r'^auctioneer/auction/create/$', create_auction),
     url(r'^auctioneer/auction/(?P<id>\w+)/cancel/$', cancel_auction),
-    url(r'^auctioneer/auction/(?P<id>\w+)/bid/$', bid),
+    url(r'^auctioneer/auction/(?P<id>\w+)/bid/$', bid)
 
 )

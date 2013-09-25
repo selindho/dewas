@@ -1,23 +1,34 @@
 /* Generic Selectors */
  
 body { 
-	font-family: Georgia, "Times New Roman", Times, serif; 
+	font-family: Verdana, Geneva, sans-serif;
 	font-size: 14px; 
-	color: #333333; 
+	color: #313131;
 	background-color: #313131
 }   
 
 p { 
-	font-family: Georgia, "Times New Roman", Times, serif;
-	width: 80%; 
+	font-family: Verdana, Geneva, sans-serif;
+	width: 80%;
+    color: #000000;
 }   
 
 li {
 	list-style-type: none; 
 	line-height: 150%; 
-}   
+}
 
-h1 { 
+div#Content div{
+    position: relative;
+    background-color: #313131;
+    border: 1px solid #000000;
+    box-shadow: 2px 2px 2px #000000, -1px -1px 2px #000000;
+    margin: 10px;
+    padding: 5px;
+}
+
+h1 {
+    /* Main menu heading */
 	position: relative;
 	font-family: Verdana, Geneva, sans-serif; 
 	font-size: 18px; 
@@ -27,7 +38,8 @@ h1 {
 	
 }
 
-h2 { 
+h2 {
+    /* Secondary menu heading */
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 16px; 
 	font-weight: bold; 
@@ -45,46 +57,35 @@ h3 {
 	text-shadow: 1px 1px 2px #000000, -1px -1px 1px #000000;
 }
 
-h4 { 
-	font-family: Verdana, Geneva, sans-serif;
-	font-size: 12px; 
-	font-weight: bold; 
-	color: #000000;
-	text-align: right;
-	bottom: 50px;
-	
-	text-shadow: 1px 1px 2px #000000, -1px -1px 1px #000000;
-}  
 
-
-/**************** Pseudo classes ****************/   
+/* Pseudo classes */
 
 a:link { 
-	color: #00CC00; 
-	text-decoration: underline; 
+	color: #000000;
+    text-decoration: none;
 	font-weight: bold; 
 }   
 
-li :link { 
-	color: #00CC00; 
+li a:link {
+	color: #000000;
 	text-decoration: none; 
 	font-weight: bold; 
 }   
 
 a:visited { 
-	color: #00CC00; 
-	text-decoration: underline; 
+	color: #000000;
+	text-decoration: none;
 	font-weight: bold; 
 }   
 
 li a:visited { 
-	color: #00CC00; 
+	color: #000000;
 	text-decoration: none; 
 	font-weight: bold; 
 }   
 
 a:hover { 
-	color: rgb(0, 96, 255); 
+	color: #000000;
 	padding-bottom: 5px; 
 	font-weight: bold; 
 	text-decoration: underline; 
@@ -92,100 +93,80 @@ a:hover {
 
 li a:hover { 
 	display: block; 
-	color: rgb(0, 96, 255); 
+	color: #000000;
 	padding-bottom: 5px; 
 	font-weight: bold; 
 	border-bottom-width: 1px; 
 	border-bottom-style: solid; 
-	border-bottom-color: #C6EC8C; 
+	border-bottom-color: #000000;
 }   
 
 a:active { 
-	color: rgb(255, 0, 102); 
+	color: #000000;
+    text-decoration: none;
 	font-weight: bold; 
 }   
 
 
-/************************* ID's *************************/   
+/* ID's */
 
 #Container {
 	position: absolute;
-	
 	top: 0;
 	bottom: 0;
 	left: 0;
 	bottom: 0;
-	
 	z-index: 1;
 }
 
 #PrimaryMenu { 
 	position: fixed;
 	background-color: #58FF00;
-	
 	top: 25px;
 	left: 25px;
 	right: 25px;
-
-	height: 50px;	
-	
+	height: 50px;
 	z-index: 3;
-	
 	padding-left: 20px;
 	padding-right: 20px;
-	
 	border: 1px solid #000000; 
 	font-weight: normal;
-	
 	box-shadow: 2px 2px 2px #000000, -1px -1px 2px #000000;
 }   
 
 #SecondaryMenu { 
 	position: fixed;
-	background-color: #58FF00; 
-	
+	background-color: #58FF00;
 	top: 100px;
 	left: 25px;
 	bottom: 25px;
 	width: 125px;
-	
 	z-index: 3;
-	
 	padding-left: 20px;
-	padding-right: 20px;	
-	
+	padding-right: 20px;
 	border: 1px solid #000000;	
 	font-weight: normal;
-	
 	box-shadow: 2px 2px 2px #000000, -1px -1px 2px #000000;
 }
 
 #TopPatch {
  	position: fixed;
  	background-color: #313131;
- 	
  	top: 0;
  	left: 0;
  	right: 0;
  	height: 25px;
- 	
  	z-index: 2;
 }   
 
 #Content { 
 	position: relative;
 	background-color: #B1B1B1;
-	
 	margin-left: 245px;
 	margin-right: 50px;
-	padding-left: 20px;
-	padding-right: 20px;
-	
 	margin-bottom: 25px;
 	margin-top: 100px;
-	
 	border: 1px solid #000000;
-	
 	box-shadow: 2px 2px 2px #000000, -1px -1px 2px #000000;
 }
 
