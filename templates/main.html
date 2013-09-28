@@ -17,11 +17,13 @@
 		<div id=Container>
 		
 			<div id=PrimaryMenu>
-				<h1>Primary Navigation</h1>		
+				<h1>Auctioneer - {{ title }}</h1>
 			</div>
 			
 			<div id=SecondaryMenu>
-				<h2>Secondary Navigation</h2>		
+                {% for link in link_list %}
+                <div><h4><a href='{{ link.target }}'>{{ link.name }}</a></h4></div>
+                {% endfor %}
 			</div>
 			
 			<div id=TopPatch>
@@ -30,17 +32,12 @@
 		
 			<div id=Content>
 
+                {% for content in content_list %}
                 <div>
-				    <h3>Content Heading</h3>
-				    <p>Paragraph 1</p>
-				    <p>Paragraph 2</p>
+				    <h3>content.title</h3>
+				    <!-- TODO: Print content! -->
                 </div>
-
-                <div>
-				    <h3>Content Heading</h3>
-				    <p>Paragraph 1</p>
-				    <p>Paragraph 2</p>
-                </div>
+                {% endfor %}
 
 			</div>
 			
