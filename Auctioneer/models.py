@@ -11,6 +11,21 @@ class Auctions(models.Model):
     startDate = models.DateTimeField()
     stopDate = models.DateTimeField()
 
+    @classmethod
+    def get_latest(cls):
+        try:
+            return cls.objects.latest('startDate')[:5]
+        except:
+            return None
+
+    @classmethod
+    def get_by_owner(cls, id):
+        return cls.objects.all().filter(owner=id)
+
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.objects.get(id=id)
+
 
 class Accounts(models.Model):
     username = models.CharField(null=False, max_length=30, primary_key=True, unique=True)

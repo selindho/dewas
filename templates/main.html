@@ -21,9 +21,7 @@
 			</div>
 			
 			<div id=SecondaryMenu>
-                {% for link in link_list %}
-                <div><h4><a href='{{ link.target }}'>{{ link.name }}</a></h4></div>
-                {% endfor %}
+                <div><h4><a href='/home/'>Home</a></h4></div>
 			</div>
 			
 			<div id=TopPatch>
@@ -34,27 +32,13 @@
 
                 {% for content in content_list %}
                 <div>
-				    <h3>content.title</h3>
-				    <!-- TODO: Print content! -->
+				    <h3>{{ content.title }}</h3>
+                    <p>Created by: {{ content.owner }}</p>
+                    <p>Current price: {{ content.price }} ?</p>
+                    <p>Buyout: {{ content.buyout }}</p>
+                    <p>Time remaining: {{ content.remaining }}</p>
                 </div>
                 {% endfor %}
-
-                <div>
-                    <form action="/dosmthn/" method="post">
-                        <label>
-                            <span>Label</span>
-                            <input type="text" name="input">
-                        </label>
-                        <label>
-                            <span>Label</span>
-                            <textarea rows="10" cols="30"></textarea>
-                        </label>
-                        <label>
-                            <span>Label</span>
-                            <input type="submit" name="save" value="Save">
-                        </label>
-                    </form>
-                </div>
 
 			</div>
 			

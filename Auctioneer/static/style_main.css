@@ -1,21 +1,21 @@
 /* Generic Selectors */
- 
-body { 
+
+body {
 	font-family: Verdana, Geneva, sans-serif;
-	font-size: 14px; 
+	font-size: 14px;
 	color: #313131;
 	background-color: #313131
-}   
+}
 
-p { 
+p {
 	font-family: Verdana, Geneva, sans-serif;
+	color: #000000;
 	width: 80%;
-    color: #000000;
-}   
+}
 
 li {
-	list-style-type: none; 
-	line-height: 150%; 
+	list-style-type: none;
+	line-height: 150%;
 }
 
 div#Content div{
@@ -29,39 +29,37 @@ div#Content div{
 
 h1 {
     /* Main heading */
-	font-family: Verdana, Geneva, sans-serif; 
+	font-family: Verdana, Geneva, sans-serif;
 	font-size: 20px;
-	font-weight: bold; 
+	font-weight: bold;
 	color: #000000;
 	text-shadow: 1px 1px 2px #000000, -1px -1px 1px #000000;
-	
+
 }
 
 h2 {
     /* Secondary heading */
 	font-family: Verdana, Geneva, sans-serif;
-	font-size: 16px; 
-	font-weight: bold; 
+	font-size: 16px;
+	font-weight: bold;
 	color: #000000;
 	text-shadow: 1px 1px 2px #000000, -1px -1px 1px #000000;
 }
 
 h3 {
-    /* Content heading */
-	font-family: Verdana, Geneva, sans-serif; 
-	font-size: 16px;
+	/* Content heading */
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 18px;
 	font-weight: normal;
 	color: #000000;
 	text-shadow: 1px 1px 2px #000000, -1px -1px 1px #000000;
 }
 
 #SecondaryMenu h2 {
-    /* Secondary menu heading */
 	text-align: center;
 }
 
 #SecondaryMenu h4 {
-    /* Secondary menu link heading */
 	text-align: center;
 }
 
@@ -84,9 +82,10 @@ div h4 a:hover {
 }
 
 #SecondaryMenu div {
+	margin: 5px;
 	background-color: #313131;
 	border: 1px solid #000000;
-    box-shadow: 2px 2px 2px #000000, -1px -1px 2px #000000;
+	box-shadow: 2px 2px 2px #000000, -1px -1px 2px #000000;
 }
 
 form {
@@ -94,13 +93,16 @@ form {
 }
 
 span {
+	position: relative;
 	color: #000000;
 	font-family: Verdana, Geneva, sans-serif;
 	text-shadow: 1px 1px 2px #000000, -1px -1px 1px #000000;
 }
 
 input {
+	position: relative;
 	display: block;
+	font-family: Verdana, Geneva, sans-serif;
 	width: 375px;
 	height: 25px;
 	border: 1px solid #000000;
@@ -114,6 +116,7 @@ input:focus {
 }
 
 input.button {
+	position: relative;
 	width: 100px;
 	background-color: #B1B1B1;
 	color: #000000;
@@ -128,6 +131,7 @@ input.button:hover {
 }
 
 textarea {
+	position: relative;
 	width: 375px;
 	height: 150px;
 	display: block;
@@ -141,14 +145,16 @@ textarea:focus {
 	 border-color: #58FF00;
 }
 
+/* ID's */
+
 #Container {
 	position: relative;
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 	z-index: 1;
 }
 
-#PrimaryMenu { 
+#PrimaryMenu {
 	position: fixed;
 	background-color: #58FF00;
 	top: 25px;
@@ -158,12 +164,12 @@ textarea:focus {
 	z-index: 3;
 	padding-left: 20px;
 	padding-right: 20px;
-	border: 1px solid #000000; 
+	border: 1px solid #000000;
 	font-weight: normal;
 	box-shadow: 2px 2px 2px #000000, -1px -1px 2px #000000;
-}   
+}
 
-#SecondaryMenu { 
+#SecondaryMenu {
 	position: fixed;
 	background-color: #B1B1B1;
 	top: 100px;
@@ -171,7 +177,7 @@ textarea:focus {
 	bottom: 25px;
 	width: 125px;
 	z-index: 3;
-	border: 1px solid #000000;	
+	border: 1px solid #000000;
 	font-weight: normal;
 	box-shadow: 2px 2px 2px #000000, -1px -1px 2px #000000;
 }
@@ -184,9 +190,9 @@ textarea:focus {
  	right: 0;
  	height: 25px;
  	z-index: 2;
-}   
+}
 
-#Content { 
+#Content {
 	position: absolute;
 	background-color: #B1B1B1;
 	left: 200px;
@@ -197,7 +203,7 @@ textarea:focus {
 }
 
 
- 
+
 
 
 
