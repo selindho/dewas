@@ -65,6 +65,20 @@ h3 {
 	text-align: center;
 }
 
+div h4 a:link {
+    /* Link heading */
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 16px;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+	text-shadow: 1px 1px 2px #000000, -1px -1px 1px #000000;
+}
+
+div h4 a:hover {
+	text-decoration: none;
+}
+
 #SecondaryMenu div:hover {
 	background-color: #58FF00;
 }
@@ -75,57 +89,57 @@ h3 {
     box-shadow: 2px 2px 2px #000000, -1px -1px 2px #000000;
 }
 
-/* Pseudo classes */
+form {
+	padding: 10px;
+}
 
-a:link { 
+span {
 	color: #000000;
-    text-decoration: none;
-	font-weight: bold; 
-}   
+	font-family: Verdana, Geneva, sans-serif;
+	text-shadow: 1px 1px 2px #000000, -1px -1px 1px #000000;
+}
 
-li a:link {
+input {
+	display: block;
+	width: 375px;
+	height: 25px;
+	border: 1px solid #000000;
+	box-shadow: 2px 2px 2px #000000, -1px -1px 2px #000000;
+	background-color: #FFFFFF;
+	margin-bottom: 10px;
+}
+
+input:focus {
+	border-color: #58FF00;
+}
+
+input.button {
+	width: 100px;
+	background-color: #B1B1B1;
 	color: #000000;
-	text-decoration: none; 
-	font-weight: bold; 
-}   
+}
 
-a:visited { 
-	color: #000000;
-	text-decoration: none;
-	font-weight: bold; 
-}   
+input.button:focus {
+	border-color: #000000;
+}
 
-li a:visited { 
-	color: #000000;
-	text-decoration: none; 
-	font-weight: bold; 
-}   
+input.button:hover {
+	background-color: #58FF00;
+}
 
-a:hover { 
-	color: #000000;
-	padding-bottom: 5px; 
-	font-weight: bold; 
-	text-decoration: underline; 
-}   
+textarea {
+	width: 375px;
+	height: 150px;
+	display: block;
+	border: 1px solid #000000;
+	box-shadow: 2px 2px 2px #000000, -1px -1px 2px #000000;
+	margin-bottom: 10px;
+	resize: none;
+}
 
-li a:hover { 
-	display: block; 
-	color: #000000;
-	padding-bottom: 5px; 
-	font-weight: bold; 
-	border-bottom-width: 1px; 
-	border-bottom-style: solid; 
-	border-bottom-color: #000000;
-}   
-
-a:active { 
-	color: #000000;
-    text-decoration: none;
-	font-weight: bold; 
-}   
-
-
-/* ID's */
+textarea:focus {
+	 border-color: #58FF00;
+}
 
 #Container {
 	position: relative;
