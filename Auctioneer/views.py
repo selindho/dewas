@@ -9,5 +9,9 @@ from django.shortcuts import render_to_response
 def home(request):
     title = 'Home'
     content = Auctions.get_latest()
-    return render_to_response('main.html', {'title':title, 'content_list':content},
+    if content is None:
+        return render_to_response('message.html', {'title': title, 'message': 'No content found!'},
+                                  context_instance=RequestContext(request))
+    else:
+        return render_to_response('main.html', {'title': title, 'content_list': content},
                               context_instance=RequestContext(request))

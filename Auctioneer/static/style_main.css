@@ -77,6 +77,10 @@ div h4 a:hover {
 	text-decoration: none;
 }
 
+div h4 a:visited{
+    color: #000000;
+}
+
 #SecondaryMenu div:hover {
 	background-color: #58FF00;
 }

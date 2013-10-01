@@ -5,45 +5,37 @@
 <html>
 
 	<head>
-	
+
 		<title>Auctioneer - {{ title }}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		<link href="{% static "style_main.css"%}" rel="stylesheet" type="text/css">
-		
+
 	</head>
 
-	<body>	
-	
+	<body>
+
 		<div id=Container>
-		
+
 			<div id=PrimaryMenu>
 				<h1>Auctioneer - {{ title }}</h1>
 			</div>
-			
+
 			<div id=SecondaryMenu>
                 <div><h4><a href='/auctioneer/home/'>Home</a></h4></div>
 			</div>
-			
+
 			<div id=TopPatch>
-				<!-- Patch element at top of the page -->			
+				<!-- Patch element at top of the page -->
 			</div>
-		
+
 			<div id=Content>
 
-                {% for content in content_list %}
-                <div>
-				    <h3>{{ content.title }}</h3>
-                    <p>Created by: {{ content.owner }}</p>
-                    <p>Current price: {{ content.price }} ?</p>
-                    <p>Buyout: {{ content.buyout }}</p>
-                    <p>Time remaining: {{ content.remaining }}</p>
-                </div>
-                {% endfor %}
+                <div><h3>{{ message }}</h3></div>
 
 			</div>
-			
+
 		</div>
-		
+
 	</body>
 
 </html>
