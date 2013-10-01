@@ -21,8 +21,9 @@
 			</div>
 
 			<div id=SecondaryMenu>
-                <div><h4><a href='/auctioneer/home/'>Home</a></h4></div>
-                <!-- TODO: links pointing to relevant pages -->
+                {% for link in link_list %}
+                <div><h4><a href='{{ link.target }}'>{{ link.name }}</a></h4></div>
+                {% endfor %}
 			</div>
 
 			<div id=TopPatch>
