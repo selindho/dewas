@@ -8,10 +8,13 @@ from django.shortcuts import render_to_response
 
 def home(request):
     title = 'Home'
+    links = [{'name': 'Home', 'target': '/auctioneer/home/'},
+             {'name': 'Login', 'target': '/auctioneer/login/'},
+             {'name': 'Search', 'target': '/auctioneer/search/'}]
     content = Auctions.get_latest()
     if content is None:
-        return render_to_response('message.html', {'title': title, 'message': 'No content found!'},
+        return render_to_response('message.html', {'title': title, 'link_list': links, 'message': 'No content found!'},
                                   context_instance=RequestContext(request))
     else:
-        return render_to_response('main.html', {'title': title, 'content_list': content},
+        return render_to_response('main.html', {'title': title, 'link_list': links, 'content_list': content},
                               context_instance=RequestContext(request))
