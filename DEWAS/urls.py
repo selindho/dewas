@@ -17,7 +17,7 @@ urlpatterns = patterns('',
 
     url(r'^auctioneer/home/$', home),
     # url(r'^auctioneer/search/(?P<query>\w+)/$', search),
-    # url(r'^auctioneer/account/create/$', create_account),
+    # url(r'^auctioneer/account/signup/$', sign_up),
     # url(r'^auctioneer/account/edit/$', edit_account),
     # url(r'^auctioneer/login/$', login),
     # url(r'^auctioneer/logout/$', logout),

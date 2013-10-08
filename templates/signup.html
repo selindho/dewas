@@ -1,0 +1,58 @@
+{% load staticfiles %}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 //EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+
+		<title>Auctioneer - {{ title }}</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<link href="{% static "style_main.css"%}" rel="stylesheet" type="text/css">
+
+	</head>
+
+	<body>
+
+		<div id=Container>
+
+			<div id=PrimaryMenu>
+				<h1>Auctioneer - {{ title }}</h1>
+			</div>
+
+			<div id=SecondaryMenu>
+                {% for link in link_list %}
+                <div><h4><a href='{{ link.target }}'>{{ link.name }}</a></h4></div>
+                {% endfor %}
+			</div>
+
+			<div id=TopPatch>
+				<!-- Patch element at top of the page -->
+			</div>
+
+			<div id=Content>
+
+                <div>
+                    <form action="/dosmthn/" method="post">
+                        <label>
+                            <span>Label</span>
+                            <input type="text" name="input">
+                        </label>
+                        <label>
+                            <span>Label</span>
+                            <textarea rows="10" cols="30"></textarea>
+                        </label>
+                        <label>
+                            <span>Label</span>
+                            <input type="submit" name="save" value="Save">
+                        </label>
+                    </form>
+                </div>
+
+			</div>
+
+		</div>
+
+	</body>
+
+</html>
