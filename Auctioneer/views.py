@@ -22,8 +22,12 @@ def home(request):
 
 
 def signup(request):
+    title = 'Home'
+    links = [{'name': 'Home', 'target': '/auctioneer/home/'},
+             {'name': 'Login', 'target': '/auctioneer/login/'},
+             {'name': 'Sign Up', 'target': '/auctioneer/signup/'}]
     if request.method == 'POST' and 'username' in request.POST and 'password' in request.POST:
         User.objects.create_user()
-        return HttpResponseRedirect('/auctioneer/home/')
+        return render_to_response('message.html', {'title': title, 'link_list': links, 'message': 'User account created!'}, context_instance=RequestContext(request))
     else:
         return render_to_response('signup.html', {}, context_instance=RequestContext(request))
