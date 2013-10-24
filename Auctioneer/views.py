@@ -43,3 +43,6 @@ def sign_up(request):
         return render_to_response('signup.html', {'title': 'Sign Up', 'is_logged_in': is_logged_in},
                                   context_instance=RequestContext(request))
 
+
+def auth(request):
+    return HttpResponse('Login')
