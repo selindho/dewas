@@ -20,11 +20,7 @@
 				<h1>Auctioneer - {{ title }}</h1>
 			</div>
 			
-			<div id=SecondaryMenu>
-                {% for link in link_list %}
-                <div><h4><a href='{{ link.target }}'>{{ link.name }}</a></h4></div>
-                {% endfor %}
-			</div>
+            {% include "links.html" %}
 			
 			<div id=TopPatch>
 				<!-- Patch element at top of the page -->			

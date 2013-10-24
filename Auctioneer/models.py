@@ -6,8 +6,8 @@ from django.db import models
 class Auctions(models.Model):
     owner = models.CharField(null=False, max_length=30)
     title = models.CharField(max_length=30)
-    startingPrice = models.FloatField()
-    buyoutPrice = models.FloatField()
+    version = models.PositiveIntegerField(default=0)
+    startingPrice = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
     startDate = models.DateTimeField()
     stopDate = models.DateTimeField()
 
@@ -19,26 +19,22 @@ class Auctions(models.Model):
             return None
 
     @classmethod
-    def get_by_owner(cls, id):
-        return cls.objects.all().filter(owner=id)
+    def get_by_owner(cls, owner):
+        return cls.objects.all().filter(owner=owner)
 
     @classmethod
     def get_by_id(cls, id):
         return cls.objects.get(id=id)
 
 
-class Accounts(models.Model):
-    username = models.CharField(max_length=30, primary_key=True, unique=True)
-    sessionId = models.TextField(unique=True)
-    firstName = models.CharField(max_length=30)
-    lastName = models.CharField(max_length=30)
-    password = models.CharField(max_length=30)
-
-
 class Bids(models.Model):
-    auction = models.PositiveIntegerField()
+    auction = models.ForeignKey(Auctions)
     owner = models.CharField(max_length=30)
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     timestamp = models.DateTimeField()
+
+    @classmethod
+    def get_by_auction(cls, auction):
+        return cls.objects.all().filter(auction=auction)
 
 
