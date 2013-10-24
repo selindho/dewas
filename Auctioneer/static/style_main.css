@@ -124,6 +124,7 @@ input.button {
 	width: 100px;
 	background-color: #B1B1B1;
 	color: #000000;
+    font-family: Verdana, Geneva, sans-serif;
 }
 
 input.button:focus {

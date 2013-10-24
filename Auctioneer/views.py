@@ -23,17 +23,22 @@ def home(request):
 def sign_up(request):
     is_logged_in = request.user.is_authenticated()
 
-    if request.method == 'POST' and 'username' in request.POST and 'password' in request.POST:
-        user = User.objects.create_user()
-        if user is not None:
-            return render_to_response('message.html', {'title': 'Success!', 'is_logged_in': is_logged_in,
-                                                       'message': 'Account created!'},
-                                      context_instance=RequestContext(request))
-        else:
-            return render_to_response('message.html', {'title': 'Error!', 'is_logged_in': is_logged_in,
-                                                       'message': 'User exists!'},
-                                      context_instance=RequestContext(request))
+    if request.method == 'POST':
+        if 'email' in request.POST and 'username' in request.POST and 'password' in request.POST:
+            user = User.objects.create_user(email=request.POST['email'], username=request.POST['username'],
+                                            password=request.POST['password'])
+            if user is not None:
+                return render_to_response('message.html', {'title': 'Success!', 'is_logged_in': is_logged_in,
+                                                           'message': 'Account created!'},
+                                          context_instance=RequestContext(request))
+            else:
+                return render_to_response('message.html', {'title': 'Error!', 'is_logged_in': is_logged_in,
+                                                           'message': 'User exists!'},
+                                          context_instance=RequestContext(request))
 
+        else:
+            return render_to_response('signup.html', {'title': 'Sign Up', 'is_logged_in': is_logged_in},
+                                      context_instance=RequestContext(request))
     else:
         return render_to_response('signup.html', {'title': 'Sign Up', 'is_logged_in': is_logged_in},
                                   context_instance=RequestContext(request))
