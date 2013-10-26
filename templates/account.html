@@ -29,20 +29,21 @@
 			<div id=Content>
 
                 <div>
-                    <form action="/auctioneer/login/" method="post">
+                    <h3>Account details for: {{ user.username }}</h3>
+                    <form action="/auctioneer/account/" method="post">
                         {% csrf_token %}
+
                         <label>
-                            <span>Username:</span>
-                            <input type="text" size="30" name="username">
+                            <span>E-Mail:</span>
+                            <input type="text" size="30" name="email" value="{{ user.email }}">
                         </label>
                         <label>
                             <span>Password</span>
                             <input type="password" size="30" name="password">
                         </label>
-                        <input type="hidden" name="next" value="{{ next }}"
                         <br>
                         <label>
-                            <input class="button" type="submit" size="30" value="Login">
+                            <input class="button" type="submit" size="30" value="Save">
                         </label>
                     </form>
                 </div>

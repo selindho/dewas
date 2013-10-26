@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-USE_TZ = True
 TIME_ZONE = 'Europe/Helsinki'
 
 # Language code for this installation. All choices can be found here:
@@ -110,6 +109,8 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'DEWAS.urls'
+
+LOGIN_URL = '/auctioneer/login/'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'DEWAS.wsgi.application'

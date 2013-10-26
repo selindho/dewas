@@ -1,4 +1,5 @@
 # Create your views here.
+from django.contrib.auth.decorators import login_required
 from Auctioneer.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import get_template
@@ -42,6 +43,7 @@ def sign_up(request):
 
 def auth(request):
     is_logged_in = request.user.is_authenticated()
+    nxt = '/auctioneer/home/'
 
     if request.method == 'POST':
         if 'username' in request.POST and 'password' in request.POST:
@@ -49,7 +51,9 @@ def auth(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponseRedirect('/auctioneer/home/')
+                    if 'next' in request.POST:
+                        nxt = request.POST['next']
+                    return HttpResponseRedirect(nxt)
                 else:
                     return render_to_response('message.html', {'title': 'Error!', 'is_logged_in': is_logged_in,
                                                                'message': 'Account suspended!'},
@@ -59,10 +63,14 @@ def auth(request):
                                                            'message': 'Invalid credentials!'},
                                           context_instance=RequestContext(request))
         else:
-            return render_to_response('auth.html', {'title': 'Login', 'is_logged_in': is_logged_in},
+            return render_to_response('auth.html', {'title': 'Login', 'is_logged_in': is_logged_in,
+                                                    'next': '/auctioneer/home/'},
                                       context_instance=RequestContext(request))
     else:
-        return render_to_response('auth.html', {'title': 'Login', 'is_logged_in': is_logged_in},
+        if request.method == 'GET' and 'next' in request.GET:
+            nxt = request.GET['next']
+
+        return render_to_response('auth.html', {'title': 'Login', 'is_logged_in': is_logged_in, 'next': nxt},
                                   context_instance=RequestContext(request))
 
 
@@ -75,11 +83,27 @@ def browse(request):
     is_logged_in = request.user.is_authenticated()
     if request.method == 'POST' and 'query' in request.POST:
         content = Auctions.get_by_query(request.POST['query'])
-        return render_to_response('browse.html', {'title': 'Login', 'is_logged_in': is_logged_in, 'is_search': True,
+        return render_to_response('browse.html', {'title': 'Browse', 'is_logged_in': is_logged_in, 'is_search': True,
                                                   'query': request.POST['query'], 'content_list': content},
                                   context_instance=RequestContext(request))
     else:
         content = Auctions.get_all()
-        return render_to_response('browse.html', {'title': 'Login', 'is_logged_in': is_logged_in, 'is_search': False,
+        return render_to_response('browse.html', {'title': 'Browse', 'is_logged_in': is_logged_in, 'is_search': False,
                                                   'content_list': content},
                                   context_instance=RequestContext(request))
+
+
+@login_required
+def account(request):
+    is_logged_in = request.user.is_authenticated()
+    user = request.user
+    if request.method == 'POST' and 'email' in request.POST and 'password' in request.POST:
+        user.email = request.POST['email']
+        user.set_password(request.POST['password'])
+        user.save()
+        return render_to_response('message.html', {'title': 'Success!', 'is_logged_in': is_logged_in,
+                                                   'message': 'Account updated!'},
+                                  context_instance=RequestContext(request))
+    else:
+        return render_to_response('account.html', {'title': 'Account', 'is_logged_in': is_logged_in, 'user': user},
+                           context_instance=RequestContext(request))
