@@ -1,0 +1,55 @@
+{% load staticfiles %}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 //EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+
+		<title>Auctioneer - {{ title }}</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<link href="{% static "style_main.css"%}" rel="stylesheet" type="text/css">
+
+	</head>
+
+	<body>
+
+		<div id=Container>
+
+			<div id=PrimaryMenu>
+				<h1>Auctioneer - {{ title }}</h1>
+			</div>
+
+            {% include "links.html" %}
+
+			<div id=TopPatch>
+				<!-- Patch element at top of the page -->
+			</div>
+
+			<div id=Content>
+
+                <div>
+                    <form action="/auctioneer/login/" method="post">
+                        {% csrf_token %}
+                        <label>
+                            <span>Username:</span>
+                            <input type="text" size="30" name="username">
+                        </label>
+                        <label>
+                            <span>Password</span>
+                            <input type="password" size="30" name="password">
+                        </label>
+                        <br>
+                        <label>
+                            <input class="button" type="submit" size="30" value="Login">
+                        </label>
+                    </form>
+                </div>
+
+			</div>
+
+		</div>
+
+	</body>
+
+</html>
