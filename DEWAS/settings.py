@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
+USE_TZ = True
 TIME_ZONE = 'Europe/Helsinki'
 
 # Language code for this installation. All choices can be found here:
@@ -71,7 +72,7 @@ STATIC_URL = '/static/'
 
 PROJECT_DIR = os.path.dirname(__file__)
 
-FIXTURES_DIR = '/fixtures'
+FIXTURES_DIR = ('fixtures',)
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -128,7 +129,8 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'Auctioneer',
-    'rest_framework'
+    'rest_framework',
+    'autofixture'
 )
 
 # A sample logging configuration. The only tangible logging

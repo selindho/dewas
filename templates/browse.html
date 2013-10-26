@@ -5,28 +5,45 @@
 <html>
 
 	<head>
-	
+
 		<title>Auctioneer - {{ title }}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		<link href="{% static "style_main.css"%}" rel="stylesheet" type="text/css">
-		
+
 	</head>
 
-	<body>	
-	
+	<body>
+
 		<div id=Container>
-		
+
 			<div id=PrimaryMenu>
 				<h1>Auctioneer - {{ title }}</h1>
 			</div>
-			
+
             {% include "links.html" %}
-			
+
 			<div id=TopPatch>
-				<!-- Patch element at top of the page -->			
+				<!-- Patch element at top of the page -->
 			</div>
-		
+
 			<div id=Content>
+
+                <div>
+                    <form action="/auctioneer/auctions/" method="post">
+                        {% csrf_token %}
+                        <label>
+                            <input type="text" name="query">
+                        </label>
+                        <input type="submit" class="button" value="Search">
+                    </form>
+                </div>
+
+                {% if is_search %}
+                <div>
+                    <h3>Results for:</h3>
+                    <p>{{ query }}</p>
+                </div>
+                {% endif %}
 
                 {% for content in content_list %}
                 <div>
@@ -42,9 +59,9 @@
                 {% endfor %}
 
 			</div>
-			
+
 		</div>
-		
+
 	</body>
 
 </html>

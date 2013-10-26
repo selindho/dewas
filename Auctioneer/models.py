@@ -1,9 +1,14 @@
 from django.db import models
+import re
 
 # Create your models here.
 
 
 class Auctions(models.Model):
+
+    class Meta:
+        permissions = (('ban_auctions', 'Can ban auctions.'),)
+
     owner = models.CharField(null=False, max_length=30)
     title = models.CharField(null=False, max_length=30)
     version = models.PositiveIntegerField(default=0)
@@ -27,6 +32,15 @@ class Auctions(models.Model):
     @classmethod
     def get_by_id(cls, id):
         return cls.objects.get(id=id).filter(banned=False)
+
+    @classmethod
+    def get_by_query(cls, query):
+        query = query.replace('\\', '\\\\')
+        return cls.objects.all().filter(title__iregex=query)
+
+    @classmethod
+    def get_all(cls):
+        return cls.objects.all()
 
 
 class Bids(models.Model):
