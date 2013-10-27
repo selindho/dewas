@@ -48,9 +48,15 @@
                 {% for content in content_list %}
                 <div>
 				    <h3>{{ content.title }}</h3>
-                    <p>Created by: {{ content.owner }}</p>
-                    <p>Current price: {{ content.price }} ?</p>
-                    <p>Time remaining: {{ content.remaining }}</p>
+                    <p>Created by: {{ content.seller }}</p>
+                    {% with content.bids_set.all|first as bid %}
+                    {% if bid %}
+                    <p>Current price: {{ bid.amount }} EUR</p>
+                    {% else %}
+                    <p>Current price: {{ content.startingPrice }} EUR</p>
+                    {% endif %}
+                    {% endwith %}
+                    <p>Deadline: {{ content.stopDate }}</p>
                 </div>
                 {% empty %}
                 <div>
