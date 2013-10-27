@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="3285104911">
+  <component name="DataSourceManagerImpl" format="xml" hash="3955650978">
     <data-source source="LOCAL" name="Django default" uuid="f879d20b-d354-4bc4-94ac-9a75faee7a09">
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/auction.db</jdbc-url>

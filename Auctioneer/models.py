@@ -11,6 +11,7 @@ class Auctions(models.Model):
 
     owner = models.CharField(null=False, max_length=30)
     title = models.CharField(null=False, max_length=30)
+    description = models.TextField(max_length=150)
     version = models.PositiveIntegerField(default=0)
     startingPrice = models.DecimalField(default=0.00, max_digits=12, decimal_places=2)
     startDate = models.DateTimeField(null=False)
