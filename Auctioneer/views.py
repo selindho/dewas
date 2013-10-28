@@ -12,9 +12,10 @@ import re
 
 
 def home(request):
-    content = Auctions.get_latest()
+    content = Auctions.get_nearest()
     is_logged_in = request.user.is_authenticated()
-    return render_to_response('main.html', {'title': 'Home', 'is_logged_in': is_logged_in, 'content_list': content},
+    return render_to_response('main.html', {'title': 'Home', 'is_logged_in': is_logged_in, 'tag': 'Upcoming auctions',
+                                            'content_list': content},
                               context_instance=RequestContext(request))
 
 
@@ -107,7 +108,7 @@ def account(request):
                                   context_instance=RequestContext(request))
     else:
         return render_to_response('account.html', {'title': 'Account', 'is_logged_in': is_logged_in, 'user': user},
-                           context_instance=RequestContext(request))
+                                  context_instance=RequestContext(request))
 
 
 @login_required
@@ -179,3 +180,11 @@ def shelf(request):
         request.session['start'] = request.POST['start']
         request.session['stop'] = request.POST['stop']
         request.session['starting_price'] = request.POST['starting_price']
+
+
+@login_required
+def auctions(request):
+    is_logged_in = request.user.is_authenticated()
+    content = Auctions.get_by_seller(request.user)
+    return render_to_response('main.html', {'title': 'My Auctions', 'is_logged_in': is_logged_in,
+                                            'tag': 'Auctions by '+request.user.username, 'content_list': content})
