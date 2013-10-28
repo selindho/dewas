@@ -58,6 +58,9 @@
                     {% endwith %}
                     <p>Start date: {{ content.startDate }}</p>
                     <p>Deadline: {{ content.stopDate }}</p>
+                    <form action="/auctioneer/auctions/{{ content.id }}" method="get">
+                        <input type="submit" class="button" value="Details">
+                    </form>
                 </div>
                 {% empty %}
                 <div>

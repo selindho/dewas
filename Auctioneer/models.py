@@ -43,9 +43,9 @@ class Auctions(models.Model):
             return None
 
     @classmethod
-    def get_by_id(cls, id):
+    def get_by_id(cls, auction_id):
         try:
-            return cls.objects.get(id=id).filter(banned=False)
+            return cls.objects.get(id=auction_id)
         except:
             return None
 
@@ -73,7 +73,7 @@ class Bids(models.Model):
     timestamp = models.DateTimeField()
 
     class Meta:
-        ordering = ['-timestamp']
+        ordering = ['-amount']
         #order_with_respect_to = 'auction'
 
     @classmethod

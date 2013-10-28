@@ -1,0 +1,67 @@
+{% load staticfiles %}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 //EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+	
+		<title>Auctioneer - {{ title }}</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<link href="{% static "style_main.css"%}" rel="stylesheet" type="text/css">
+		
+	</head>
+
+	<body>	
+	
+		<div id=Container>
+		
+			<div id=PrimaryMenu>
+				<h1>Auctioneer - {{ title }}</h1>
+			</div>
+			
+            {% include "links.html" %}
+			
+			<div id=TopPatch>
+				<!-- Patch element at top of the page -->			
+			</div>
+		
+			<div id=Content>
+
+                {% with content as auction %}
+                <div>
+                    <h3>{{ auction.title }}</h3>
+                    <p>Created by: {{ auction.seller }}</p>
+                    <p>Deadline: {{ auction.stopDate }}</p>
+                    <p>Description: {{ auction.description }}</p>
+                    {% with auction.bids_set.all|first as top %}
+                    {% if top %}
+                    <h3>Current price: {{ top.amount }} EUR</h3>
+                    <p>by: {{ top.bidder }}</p>
+                    <p>@ {{ top.timestamp }}</p>
+                    {% else %}
+                    <h3>Current price: {{ content.startingPrice }} EUR</h3>
+                    {% endif %}
+                    {% endwith %}
+                </div>
+
+                {% for bid in auction.bids_set.all %}
+                <div>
+                    <h3>Bid: {{ bid.amount }} EUR</h3>
+                    <p>by: {{ bid.bidder }}</p>
+                    <p>@ {{ bid.timestamp }}</p>
+                </div>
+                {% empty %}
+                <div>
+                    <h3>No bids!</h3>
+                </div>
+                {% endfor %}
+                {% endwith %}
+
+    		</div>
+			
+		</div>
+		
+	</body>
+
+</html>

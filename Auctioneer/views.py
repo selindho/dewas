@@ -164,11 +164,13 @@ def confirm(request):
                            stopDate=session['stop'])
             new.save()
             return render_to_response('message.html', {'title': 'Success!', 'is_logged_in': is_logged_in,
-                                                       'message': 'Auction created!'})
+                                                       'message': 'Auction created!'},
+                                      context_instance=RequestContext(request))
         else:
             session['valid'] = 'False'
             return render_to_response('message.html', {'title': 'Canceled!', 'is_logged_in': is_logged_in,
-                                                       'message': 'Auction creation canceled!'})
+                                                       'message': 'Auction creation canceled!'},
+                                      context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect('/auctioneer/home/')
 
@@ -187,4 +189,21 @@ def auctions(request):
     is_logged_in = request.user.is_authenticated()
     content = Auctions.get_by_seller(request.user)
     return render_to_response('main.html', {'title': 'My Auctions', 'is_logged_in': is_logged_in,
-                                            'tag': 'Auctions by '+request.user.username, 'content_list': content})
+                                            'tag': 'Auctions by '+request.user.username, 'content_list': content},
+                              context_instance=RequestContext(request))
+
+
+@login_required
+def details(request, auction_id):
+    auction = Auctions.get_by_id(auction_id)
+    is_logged_in = request.user.is_authenticated()
+
+    if auction is not None:
+        return render_to_response('details.html', {'title': 'Details', 'is_logged_in': is_logged_in,
+                                                   'content': auction},
+                                  context_instance=RequestContext(request))
+    else:
+        return render_to_response('message.html', {'title': 'Not found!', 'is_logged_in': is_logged_in,
+                                                   'message': 'No such auction found!'},
+                                  context_instance=RequestContext(request))
+
