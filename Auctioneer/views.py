@@ -193,7 +193,6 @@ def auctions(request):
                               context_instance=RequestContext(request))
 
 
-@login_required
 def details(request, auction_id):
     auction = Auctions.get_by_id(auction_id)
     is_logged_in = request.user.is_authenticated()
