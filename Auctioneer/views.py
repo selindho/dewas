@@ -113,7 +113,8 @@ def account(request):
 def create(request):
     is_logged_in = request.user.is_authenticated()
 
-    if request.method == 'POST' and 'title', 'description', 'start', 'stop' in request.POST:
+    if request.method == 'POST' and 'title' in request.POST and 'description' in request.POST and \
+                         'start' in request.POST and 'stop' in request.POST:
         try:
             start = datetime.strptime(request.POST['start'], '%Y-%m-%d-%H:%M')
             stop = datetime.strptime(request.POST['stop'], '%Y-%m-%d-%H:%M')
