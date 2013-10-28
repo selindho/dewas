@@ -32,8 +32,15 @@
                     <h3>Create Auction</h3>
                 </div>
 
+                {% if message %}
+                <div>
+                    <h3>{{ message }}</h3>
+                </div>
+                {% endif %}
+
                 <div>
                     <form action="/auctioneer/auctions/create/" method="post">
+                        {% csrf_token %}
                         <label>
                             <span>Title</span>
                             <input type="text" name="title">
@@ -43,9 +50,18 @@
                             <textarea rows="5" cols="30" name="description"></textarea>
                         </label>
                         <label>
-                            <span>Label</span>
-                            <input type="submit" name="save" value="Save">
+                            <span>Starting price</span>
+                            <input type="text" name="starting_price">
                         </label>
+                        <label>
+                            <span>Start date (YYYY-MM-DD hh:mm)</span>
+                            <input type="text" name="start">
+                        </label>
+                        <label>
+                            <span>Closing date (YYYY-MM-DD hh:mm)</span>
+                            <input type="text" name="stop">
+                        </label>
+                        <input type="submit" class="button" value="Create">
                     </form>
                 </div>
 

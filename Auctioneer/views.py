@@ -8,6 +8,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from datetime import datetime
+import re
 
 
 def home(request):
@@ -114,27 +115,67 @@ def create(request):
     is_logged_in = request.user.is_authenticated()
 
     if request.method == 'POST' and 'title' in request.POST and 'description' in request.POST and \
-                         'start' in request.POST and 'stop' in request.POST:
+                         'start' in request.POST and 'stop' in request.POST and 'starting_price' in request.POST:
         try:
-            start = datetime.strptime(request.POST['start'], '%Y-%m-%d-%H:%M')
-            stop = datetime.strptime(request.POST['stop'], '%Y-%m-%d-%H:%M')
-            if stop > start > datetime.now():
-                save_auction_in_session(request)
-                return render_to_response('confirm.html', {}, context_instance=RequestContext(request))
+            start = datetime.strptime(request.POST['start'], '%Y-%m-%d %H:%M')
+            stop = datetime.strptime(request.POST['stop'], '%Y-%m-%d %H:%M')
+            exp = re.compile(r'^\d{1,10}(.\d{0,2})?$')
+            result = exp.match(request.POST['starting_price'])
+            if stop > start > datetime.now() and result is not None:
+                shelf(request)
+                return render_to_response('confirm.html', {'title': 'Confirmation', 'is_logged_in': is_logged_in,
+                                                           'auction_title': request.POST['title'],
+                                                           'description': request.POST['description'],
+                                                           'starting_price': request.POST['starting_price'],
+                                                           'start': request.POST['start'],
+                                                           'stop': request.POST['stop']
+                                                           },
+                                          context_instance=RequestContext(request))
+            else:
+                return render_to_response('create.html', {'title': 'Create auction',
+                                                          'is_logged_in': is_logged_in,
+                                                          'message': 'Input format error, try again!',
+                                                          },
+                                          context_instance=RequestContext(request))
         except:
-            return render_to_response('create.html', {}, context_instance=RequestContext(request))
+            return render_to_response('create.html', {'title': 'Create auction',
+                                                      'is_logged_in': is_logged_in,
+                                                      'message': 'Input format error, try again!',
+                                                      },
+                                      context_instance=RequestContext(request))
     else:
-        return render_to_response('create.html', {}, context_instance=RequestContext(request))
+        return render_to_response('create.html', {'title': 'Create auction',
+                                                  'is_logged_in': is_logged_in,
+                                                  },
+                                  context_instance=RequestContext(request))
 
 
+@login_required
 def confirm(request):
     is_logged_in = request.user.is_authenticated()
+    user = request.user
+    session = request.session
+
+    if request.method == 'POST' and 'status' in request.POST and 'valid' in request.session:
+        if request.POST['status'] == 'True' and session['valid'] == 'True':
+            new = Auctions(seller=user, title=session['title'], description=session['description'],
+                           startingPrice=session['starting_price'], startDate=session['start'],
+                           stopDate=session['stop'])
+            new.save()
+            return render_to_response('message.html', {'title': 'Success!', 'is_logged_in': is_logged_in,
+                                                       'message': 'Auction created!'})
+        else:
+            session['valid'] = 'False'
+            return render_to_response('message.html', {'title': 'Canceled!', 'is_logged_in': is_logged_in,
+                                                       'message': 'Auction creation canceled!'})
+    else:
+        return HttpResponseRedirect('/auctioneer/home/')
 
 
-def save_auction_in_session(request):
+def shelf(request):
+        request.session['valid'] = 'True'
         request.session['title'] = request.POST['title']
         request.session['description'] = request.POST['description']
         request.session['start'] = request.POST['start']
         request.session['stop'] = request.POST['stop']
-        if 'starting_price' in request.POST:
-            request.session['starting_price'] = request.POST['starting_price']
+        request.session['starting_price'] = request.POST['starting_price']
