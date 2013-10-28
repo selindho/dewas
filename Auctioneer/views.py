@@ -1,13 +1,13 @@
 # Create your views here.
 from django.contrib.auth.decorators import login_required
 from Auctioneer.models import *
-from django.http import HttpResponse, HttpResponseRedirect
-from django.template.loader import get_template
-from django.template import Context, RequestContext
+from django.http import HttpResponseRedirect
+from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.models import User, Group, Permission
+from django.contrib.auth.models import User
 from django.db import IntegrityError
+from datetime import datetime
 
 
 def home(request):
@@ -107,3 +107,33 @@ def account(request):
     else:
         return render_to_response('account.html', {'title': 'Account', 'is_logged_in': is_logged_in, 'user': user},
                            context_instance=RequestContext(request))
+
+
+@login_required
+def create(request):
+    is_logged_in = request.user.is_authenticated()
+
+    if request.method == 'POST' and 'title', 'description', 'start', 'stop' in request.POST:
+        try:
+            start = datetime.strptime(request.POST['start'], '%Y-%m-%d-%H:%M')
+            stop = datetime.strptime(request.POST['stop'], '%Y-%m-%d-%H:%M')
+            if stop > start > datetime.now():
+                save_auction_in_session(request)
+                return render_to_response('confirm.html', {}, context_instance=RequestContext(request))
+        except:
+            return render_to_response('create.html', {}, context_instance=RequestContext(request))
+    else:
+        return render_to_response('create.html', {}, context_instance=RequestContext(request))
+
+
+def confirm(request):
+    is_logged_in = request.user.is_authenticated()
+
+
+def save_auction_in_session(request):
+        request.session['title'] = request.POST['title']
+        request.session['description'] = request.POST['description']
+        request.session['start'] = request.POST['start']
+        request.session['stop'] = request.POST['stop']
+        if 'starting_price' in request.POST:
+            request.session['starting_price'] = request.POST['starting_price']

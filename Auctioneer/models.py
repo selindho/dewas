@@ -26,7 +26,7 @@ class Auctions(models.Model):
     @classmethod
     def get_latest(cls):
         try:
-            return cls.objects.filter(banned=False, resolved=False).order_by('startDate')[:5]
+            return cls.objects.filter(banned=False, resolved=False).order_by('startDate')[:3]
         except:
             try:
                 return cls.get_all()
@@ -74,7 +74,7 @@ class Bids(models.Model):
 
     auction = models.ForeignKey(Auctions)
     bidder = models.ForeignKey(User)
-    amount = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(0.00)])
+    amount = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
     timestamp = models.DateTimeField()
 
     class Meta:
