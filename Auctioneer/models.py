@@ -1,23 +1,25 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.contrib.auth.models import User
+from decimal import Decimal
 
 # Create your models here.
 
 
 class Auctions(models.Model):
 
-    seller = models.CharField(null=False, max_length=30)
+    seller = models.ForeignKey(User)
     title = models.CharField(null=False, max_length=30)
     description = models.TextField(max_length=150)
     version = models.PositiveIntegerField(default=0)
-    startingPrice = models.DecimalField(default=0.00, max_digits=12, decimal_places=2, validators=[MinValueValidator(0.00)])
+    startingPrice = models.DecimalField(default=0.00, max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
     startDate = models.DateTimeField(null=False)
     stopDate = models.DateTimeField(null=False)
     banned = models.BooleanField(default=False)
     resolved = models.BooleanField(default=False)
 
     class Meta:
-        permissions = (('ban_auctions', 'Can ban auctions.'),)
+        permissions = (('ban_auctions', 'Can ban auctions'),)
         ordering = ['startDate']
         #order_with_respect_to = 'startDate'
 
@@ -71,7 +73,7 @@ class Auctions(models.Model):
 class Bids(models.Model):
 
     auction = models.ForeignKey(Auctions)
-    owner = models.CharField(max_length=30)
+    bidder = models.ForeignKey(User)
     amount = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(0.00)])
     timestamp = models.DateTimeField()
 

@@ -71,7 +71,7 @@ STATIC_URL = '/static/'
 
 PROJECT_DIR = os.path.dirname(__file__)
 
-FIXTURES_DIR = ('fixtures',)
+FIXTURES_DIR = ('fixtures/',)
 
 # Additional locations of static files
 STATICFILES_DIRS = (
