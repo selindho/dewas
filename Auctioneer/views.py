@@ -124,7 +124,7 @@ def create(request):
             stop = datetime.strptime(request.POST['stop'], '%Y-%m-%d %H:%M')
             exp = re.compile(r'^\d{1,10}(.\d{0,2})?$')
             result = exp.match(request.POST['starting_price'])
-            if stop >= start + timedelta(days=3) > start > datetime.now() and result is not None:
+            if stop >= start + timedelta(days=3) and start >= datetime.now() and result is not None:
                 shelf(request)
                 return render_to_response('confirm.html', {'title': 'Confirmation', 'is_logged_in': is_logged_in,
                                                            'auction_title': request.POST['title'],
