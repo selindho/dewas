@@ -7,8 +7,10 @@ from django.shortcuts import render_to_response
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from datetime import datetime
+from datetime import datetime, timedelta
 import re
+from django.core import mail
+from django.core.mail import send_mail
 
 
 def home(request):
@@ -122,7 +124,7 @@ def create(request):
             stop = datetime.strptime(request.POST['stop'], '%Y-%m-%d %H:%M')
             exp = re.compile(r'^\d{1,10}(.\d{0,2})?$')
             result = exp.match(request.POST['starting_price'])
-            if stop > start > datetime.now() and result is not None:
+            if stop >= start + timedelta(days=3) > start > datetime.now() and result is not None:
                 shelf(request)
                 return render_to_response('confirm.html', {'title': 'Confirmation', 'is_logged_in': is_logged_in,
                                                            'auction_title': request.POST['title'],
@@ -135,13 +137,13 @@ def create(request):
             else:
                 return render_to_response('create.html', {'title': 'Create auction',
                                                           'is_logged_in': is_logged_in,
-                                                          'message': 'Input format error, try again!',
+                                                          'message': 'Input error, try again!',
                                                           },
                                           context_instance=RequestContext(request))
         except:
             return render_to_response('create.html', {'title': 'Create auction',
                                                       'is_logged_in': is_logged_in,
-                                                      'message': 'Input format error, try again!',
+                                                      'message': 'Input error, try again!',
                                                       },
                                       context_instance=RequestContext(request))
     else:
@@ -159,17 +161,23 @@ def confirm(request):
 
     if request.method == 'POST' and 'status' in request.POST and 'valid' in request.session:
         if request.POST['status'] == 'True' and session['valid'] == 'True':
+            session['valid'] = 'False'
             new = Auctions(seller=user, title=session['title'], description=session['description'],
                            startingPrice=session['starting_price'], startDate=session['start'],
                            stopDate=session['stop'])
             new.save()
+            send_mail('Auctioneer: Auction created!', 'Your auction ' + new.title + ' was created successfully!',
+                      'auctioneer@some.mail', [new.seller.email], fail_silently=False)
+            print 'Sent e-mail messages:'
+            for message in mail.outbox:
+                print message.subject
             return render_to_response('message.html', {'title': 'Success!', 'is_logged_in': is_logged_in,
                                                        'message': 'Auction created!'},
                                       context_instance=RequestContext(request))
         else:
             session['valid'] = 'False'
             return render_to_response('message.html', {'title': 'Canceled!', 'is_logged_in': is_logged_in,
-                                                       'message': 'Auction creation canceled!'},
+                                                       'message': 'Auction creation was canceled!'},
                                       context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect('/auctioneer/home/')

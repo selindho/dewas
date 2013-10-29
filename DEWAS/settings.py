@@ -73,6 +73,8 @@ PROJECT_DIR = os.path.dirname(__file__)
 
 FIXTURES_DIR = ('fixtures/',)
 
+EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".

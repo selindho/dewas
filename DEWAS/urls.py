@@ -26,7 +26,8 @@ urlpatterns = patterns('',
     url(r'^auctioneer/auctions/(?P<auction_id>\d+)/$', details),
     url(r'^auctioneer/auctions/create/$', create),
     url(r'^auctioneer/auctions/confirm/$', confirm)
-    # url(r'^auctioneer/auctions/(?P<id>\w+)/cancel/$', cancel_auction),
+    # url(r'^auctioneer/auctions/(?P<id>\w+)/cancel/$', cancel),
+    # url(r'^auctioneer/auctions/(?P<id>\w+)/ban/$', ban),
     # url(r'^auctioneer/auctions/(?P<id>\w+)/bid/$', bid)
 
 )

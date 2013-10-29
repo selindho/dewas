@@ -38,15 +38,16 @@
                 </div>
 
                 <div>
+                    <h3>Confirm auction?</h3>
                     <form action="/auctioneer/auctions/confirm/" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="status" value="True">
-                        <input type="submit" class="button" value="Confirm">
+                        <input type="submit" class="button" value="Yes">
                     </form>
                     <form action="/auctioneer/auctions/confirm/" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="status" value="False">
-                        <input type="submit" class="button" value="Reject">
+                        <input type="submit" class="button" value="No">
                     </form>
                 </div>
 
