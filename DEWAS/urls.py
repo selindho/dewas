@@ -33,6 +33,6 @@ urlpatterns = patterns('',
     # url(r'^auctioneer/auctions/(?P<id>\w+)/bid/$', bid)
 
     # RESTful interface
-    url(r'^auctioneer/api/auctions/$', auctions)
+    url(r'^auctioneer/api/auctions/(?P<query>\w+)?$', auctions)
 
 )
