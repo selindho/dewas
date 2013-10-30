@@ -204,11 +204,41 @@ def auctions(request):
 def details(request, auction_id):
     auction = Auctions.get_by_id(auction_id)
     is_logged_in = request.user.is_authenticated()
+    if is_logged_in and auction.seller == request.user:
+        seller = True
+    else:
+        seller = False
 
     if auction is not None:
         return render_to_response('details.html', {'title': 'Details', 'is_logged_in': is_logged_in,
-                                                   'content': auction},
+                                                   'content': auction, 'seller': seller},
                                   context_instance=RequestContext(request))
+    else:
+        return render_to_response('message.html', {'title': 'Not found!', 'is_logged_in': is_logged_in,
+                                                   'message': 'No such auction found!'},
+                                  context_instance=RequestContext(request))
+
+
+@login_required
+def edit(request, auction_id):
+    is_logged_in = request.user.is_authenticated()
+    content = Auctions.get_by_id(auction_id)
+
+    if content is not None:
+        if request.user == content.seller:
+            if request.method == 'POST' and 'description' in request.POST:
+                content.description = request.POST['description']
+                content.version += 1
+                content.save()
+                return HttpResponseRedirect('/auctioneer/auctions/' + str(content.id))
+            else:
+                return render_to_response('edit.html', {'title': 'Edit', 'is_logged_in': is_logged_in,
+                                                        'auction': content},
+                                          context_instance=RequestContext(request))
+        else:
+            return render_to_response('message.html', {'title': 'Not authorized!', 'is_logged_in': is_logged_in,
+                                                       'message': 'Action not authorized!'},
+                                      context_instance=RequestContext(request))
     else:
         return render_to_response('message.html', {'title': 'Not found!', 'is_logged_in': is_logged_in,
                                                    'message': 'No such auction found!'},

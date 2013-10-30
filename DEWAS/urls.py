@@ -28,11 +28,11 @@ urlpatterns = patterns('',
     url(r'^auctioneer/auctions/(?P<auction_id>\d+)/$', details),
     url(r'^auctioneer/auctions/create/$', create),
     url(r'^auctioneer/auctions/confirm/$', confirm),
-    # url(r'^auctioneer/auctions/(?P<id>\w+)/cancel/$', cancel),
-    # url(r'^auctioneer/auctions/(?P<id>\w+)/ban/$', ban),
-    # url(r'^auctioneer/auctions/(?P<id>\w+)/bid/$', bid)
+    url(r'^auctioneer/auctions/(?P<auction_id>\w+)/edit/$', edit),
+    # url(r'^auctioneer/auctions/(?P<auction_id>\w+)/ban/$', ban),
+    # url(r'^auctioneer/auctions/(?P<auction_id>\w+)/bid/$', bid)
 
     # RESTful interface
-    url(r'^auctioneer/api/auctions/(?P<query>\w+)?$', auctions)
+    url(r'^auctioneer/api/auctions/(?P<query>\w+)?$', rest_auctions)
 
 )

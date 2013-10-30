@@ -43,6 +43,11 @@
                     <h3>Current price: {{ content.startingPrice }} EUR</h3>
                     {% endif %}
                     {% endwith %}
+                    {% if seller %}
+                    <form action="/auctioneer/auctions/{{ auction.id }}/edit/" method="get">
+                        <input type="submit" class="button" value="Edit">
+                    </form>
+                    {% endif %}
                 </div>
 
                 {% for bid in auction.bids_set.all %}

@@ -28,7 +28,7 @@ class JSONResponse(HttpResponse):
 
 
 @csrf_exempt
-def auctions(request, query):
+def rest_auctions(request, query):
 
     if request.method == 'GET':
         if query is None:
@@ -47,7 +47,7 @@ def auctions(request, query):
                 return JSONResponse({'error': 'no results'}, status=200)
 
 
-def bids(request):
+def rest_bids(request):
 
     if request.method == 'POST':
         # Authenticate user
