@@ -10,7 +10,7 @@ from django.db import IntegrityError
 from datetime import datetime, timedelta
 import re
 from django.core import mail
-from django.core.mail import send_mail
+from django.core.mail import send_mail, send_mass_mail
 
 
 def home(request):
@@ -256,6 +256,19 @@ def ban(request, auction_id):
             content.banned = True
             content.version += 1
             content.save()
+            seller_message = ('Auctioneer: Auction banned!',
+                              'Your auction ' + content.title + ' was banned!',
+                              'auctioneer@some.mail', [content.seller.email])
+            bidders = []
+            for bid in content.bids_set.all():
+                bidders.append(bid.bidder.email)
+            bidder_message = ('Auctioneer: Auction banned!',
+                              'The auction ' + content.title + ' was banned!',
+                              'auctioneer@some.mail', bidders)
+            send_mass_mail((seller_message, bidder_message))
+            print 'Sent e-mail messages:'
+            for message in mail.outbox:
+                print message.subject
 
             return HttpResponseRedirect('/auctioneer/auctions/' + str(content.id))
         else:
