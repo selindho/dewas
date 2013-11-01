@@ -211,7 +211,8 @@ def details(request, auction_id):
 
     if auction is not None:
         return render_to_response('details.html', {'title': 'Details', 'is_logged_in': is_logged_in,
-                                                   'content': auction, 'seller': seller},
+                                                   'content': auction, 'seller': seller,
+                                                   'admin': request.user.is_staff},
                                   context_instance=RequestContext(request))
     else:
         return render_to_response('message.html', {'title': 'Not found!', 'is_logged_in': is_logged_in,
@@ -245,24 +246,18 @@ def edit(request, auction_id):
                                   context_instance=RequestContext(request))
 
 
+@login_required
 def ban(request, auction_id):
     is_logged_in = request.user.is_authenticated()
     content = Auctions.get_by_id(auction_id)
 
     if content is not None:
         if request.user.has_perm('ban_auctions', Auctions):
-            if request.method == 'POST' and 'confirm' in request.POST:
-                if request.POST['confirm'] == 'True':
-                    content.banned = True
-                    content.version += 1
-                    content.save()
-                    return HttpResponseRedirect('/auctioneer/auctions/' + str(content.id))
-                else:
-                    return HttpResponseRedirect('/auctioneer/auctions/' + str(content.id))
-            else:
-                return render_to_response('ban.html', {'title': 'Ban Auction', 'is_logged_in': is_logged_in,
-                                                       'auction': content},
-                                          context_instance=RequestContext(request))
+            content.banned = True
+            content.version += 1
+            content.save()
+
+            return HttpResponseRedirect('/auctioneer/auctions/' + str(content.id))
         else:
             return render_to_response('message.html', {'title': 'Not authorized!', 'is_logged_in': is_logged_in,
                                                        'message': 'Action not authorized!'},

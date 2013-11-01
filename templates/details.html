@@ -30,7 +30,7 @@
 
                 {% with content as auction %}
                 <div>
-                    <h3>{{ auction.title }}</h3>
+                    <h3>{{ auction.title }}{% if auction.banned %} [BANNED]{% endif %}</h3>
                     <p>Created by: {{ auction.seller }}</p>
                     <p>Deadline: {{ auction.stopDate }}</p>
                     <p>Description: {{ auction.description }}</p>
@@ -46,6 +46,11 @@
                     {% if seller %}
                     <form action="/auctioneer/auctions/{{ auction.id }}/edit/" method="get">
                         <input type="submit" class="button" value="Edit">
+                    </form>
+                    {% endif %}
+                    {% if admin %}
+                    <form action="/auctioneer/auctions/{{ auction.id }}/ban/" method="get">
+                        <input type="submit" class="button" value="Ban">
                     </form>
                     {% endif %}
                 </div>
