@@ -134,13 +134,16 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'Auctioneer',
     'rest_framework',
-    'autofixture'
+    'autofixture',
+    'django_cron'
 )
 
 CRON_CLASSES = [
     "Auctioneer.cron.AuctionResolver",
     "django_cron.cron.FailedRunsNotificationCronJob",
 ]
+
+CRON_POLLING_FREQUENCY = 60
 
 LOCALE_PATHS = ('locale',)
 

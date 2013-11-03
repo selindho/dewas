@@ -1,5 +1,4 @@
 from django_cron import CronJobBase, Schedule
-from django.shortcuts import get_list_or_404
 from django.core.mail import send_mass_mail
 from Auctioneer.models import *
 
@@ -13,34 +12,41 @@ class AuctionResolver(CronJobBase):
     code = 'Auctioneer.auction_resolver'
 
     def do(self):
-        auctions = get_list_or_404(Auctions, banned=False, resolved=False)
+        auctions = Auctions.objects.filter(banned=False, resolved=False)
 
         now = datetime.now()
-        for auction in auctions:
-            print auction.title
-            if auction.stopDate < now:
-                print auction.stopDate
+        if auctions is not None:
+            for auction in auctions:
+                if auction.stopDate < now:
+                    seller_message = ('Auctioneer: Auction resolved!',
+                                      'Your auction ' + auction.title + ' was resolved!',
+                                      'auctioneer@some.mail', [auction.seller.email])
+                    send_mass_mail((seller_message,))
 
-                bids = get_list_or_404(auction.bids_set.all())
+                    bids = list(auction.bids_set.all())
+                    bidders = []
+                    winner = None
+                    if bids:
+                        for bid in bids:
+                            bidders.append(bid.bidder.email)
 
-                seller_message = ('Auctioneer: Auction resolved!',
-                                  'Your auction ' + auction.title + ' was resolved!',
-                                  'auctioneer@some.mail', [auction.seller.email])
+                        bidder_message = ('Auctioneer: Auction resolved!',
+                                          'The auction ' + auction.title + ' was resolved!',
+                                          'auctioneer@some.mail', bidders)
+                        send_mass_mail((bidder_message,))
 
-                bidders = []
-                for bid in bids:
-                    bidders.append(bid.bidder.email)
+                        winner = bids[0]
+                        winner_message = ('Auctioneer: Auction won!',
+                                          'You won the auction ' + auction.title + '!',
+                                          'auctioneer@some.mail', [winner.bidder.email])
+                        send_mass_mail((winner_message,))
 
-                bidder_message = ('Auctioneer: Auction resolved!',
-                                  'The auction ' + auction.title + ' was resolved!',
-                                  'auctioneer@some.mail', bidders)
+                    auction.resolved = True
+                    auction.save()
 
-                winner = Bids.get_by_auction_highest(auction)
+                    if winner is not None:
+                        print auction.title + '@' + str(auction.stopDate) + ': ' + str(winner.bidder) + '$' + str(winner.amount)
+                    else:
+                        print auction.title + '@' + str(auction.stopDate) + ': No bids.'
 
-                winner_message = ('Auctioneer: Auction won!',
-                                  'You won the auction ' + auction.title + '!',
-                                  'auctioneer@some.mail', winner.bidder.email)
-                send_mass_mail((seller_message, bidder_message, winner_message))
-
-                auction.resolved = True
-                auction.save()
+        print 'Cron job executed!'
