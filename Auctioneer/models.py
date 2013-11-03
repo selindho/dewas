@@ -86,6 +86,6 @@ class Bids(models.Model):
     @classmethod
     def get_by_auction_highest(cls, auction):
         try:
-            return cls.objects.filter(auction=auction)
+            return cls.objects.filter(auction=auction)[1]
         except:
             return None
