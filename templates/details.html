@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load i18n %}
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 //EN" "http://www.w3.org/TR/html4/strict.dtd">
 
@@ -31,39 +32,39 @@
                 {% with content as auction %}
                 <div>
                     <h3>{{ auction.title }}{% if auction.banned %} [BANNED]{% endif %}</h3>
-                    <p>Created by: {{ auction.seller }}</p>
-                    <p>Deadline: {{ auction.stopDate }}</p>
-                    <p>Description: {{ auction.description }}</p>
+                    <p>{% trans "Created by:" %} {{ auction.seller }}</p>
+                    <p>{% trans "Deadline:" %} {{ auction.stopDate }}</p>
+                    <p>{% trans "Description:" %} {{ auction.description }}</p>
                     {% with auction.bids_set.all|first as top %}
                     {% if top %}
-                    <h3>Current price: {{ top.amount }} EUR</h3>
-                    <p>by: {{ top.bidder }}</p>
+                    <h3>{% trans "Current price:" %} {{ top.amount }} EUR</h3>
+                    <p>{% trans "by:" %} {{ top.bidder }}</p>
                     <p>@ {{ top.timestamp }}</p>
                     {% else %}
-                    <h3>Current price: {{ content.startingPrice }} EUR</h3>
+                    <h3>{% trans "Current price:" %} {{ content.startingPrice }} EUR</h3>
                     {% endif %}
                     {% endwith %}
                     {% if seller %}
                     <form action="/auctioneer/auctions/{{ auction.id }}/edit/" method="get">
-                        <input type="submit" class="button" value="Edit">
+                        <input type="submit" class="button" value={% trans "Edit" %}>
                     </form>
                     {% endif %}
                     {% if admin %}
                     <form action="/auctioneer/auctions/{{ auction.id }}/ban/" method="get">
-                        <input type="submit" class="button" value="Ban">
+                        <input type="submit" class="button" value={% trans "Ban" %}>
                     </form>
                     {% endif %}
                 </div>
 
                 {% for bid in auction.bids_set.all %}
                 <div>
-                    <h3>Bid: {{ bid.amount }} EUR</h3>
-                    <p>by: {{ bid.bidder }}</p>
+                    <h3>{% trans "Bid:" %} {{ bid.amount }} EUR</h3>
+                    <p>{% trans "by:" %} {{ bid.bidder }}</p>
                     <p>@ {{ bid.timestamp }}</p>
                 </div>
                 {% empty %}
                 <div>
-                    <h3>No bids!</h3>
+                    <h3>{% trans "No bids!" %}</h3>
                 </div>
                 {% endfor %}
                 {% endwith %}

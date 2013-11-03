@@ -138,6 +138,7 @@ INSTALLED_APPS = (
 
 CRON_CLASSES = [
     "Auctioneer.cron.AuctionResolver",
+    "django_cron.cron.FailedRunsNotificationCronJob",
 ]
 
 LOCALE_PATHS = ('locale',)

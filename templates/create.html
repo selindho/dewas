@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load i18n %}
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 //EN" "http://www.w3.org/TR/html4/strict.dtd">
 
@@ -29,7 +30,7 @@
 			<div id=Content>
 
                 <div>
-                    <h3>Create Auction</h3>
+                    <h3>{% trans "Create Auction" %}</h3>
                 </div>
 
                 {% if message %}
@@ -42,27 +43,27 @@
                     <form action="/auctioneer/auctions/create/" method="post">
                         {% csrf_token %}
                         <label>
-                            <span>Title</span>
+                            <span>{% trans "Title" %}</span>
                             <input type="text" name="title">
                         </label>
                         <label>
-                            <span>Description</span>
+                            <span>{% trans "Description" %}</span>
                             <textarea rows="5" cols="30" name="description"></textarea>
                         </label>
                         <label>
-                            <span>Starting price</span>
+                            <span>{% trans "Starting price" %}</span>
                             <input type="text" name="starting_price">
                         </label>
                         <label>
-                            <span>Start date (YYYY-MM-DD hh:mm)</span>
+                            <span>{% trans "Start date (YYYY-MM-DD hh:mm)" %}</span>
                             <input type="text" name="start">
                         </label>
                         <label>
-                            <span>Closing date (YYYY-MM-DD hh:mm)</span>
+                            <span>{% trans "Deadline (YYYY-MM-DD hh:mm)" %}</span>
                             <input type="text" name="stop">
                         </label>
-                        <p>NOTE: Minimum duration is 3 days (72h)</p>
-                        <input type="submit" class="button" value="Create">
+                        <p>{% trans "NOTE: Minimum duration is 3 days (72h)" %}</p>
+                        <input type="submit" class="button" value={% trans "Create" %}>
                     </form>
                 </div>
 

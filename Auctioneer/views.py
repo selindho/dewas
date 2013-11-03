@@ -11,13 +11,14 @@ from datetime import datetime, timedelta
 import re
 from django.core import mail
 from django.core.mail import send_mail, send_mass_mail
+from django.utils.translation import ugettext as _
 
 
 def home(request):
     content = Auctions.get_nearest()
     is_logged_in = request.user.is_authenticated()
-    return render_to_response('main.html', {'title': 'Home', 'is_logged_in': is_logged_in, 'tag': 'Upcoming auctions',
-                                            'content_list': content},
+    return render_to_response('main.html', {'title': _('Home'), 'is_logged_in': is_logged_in,
+                                            'tag': _('Upcoming auctions'), 'content_list': content},
                               context_instance=RequestContext(request))
 
 
@@ -29,19 +30,19 @@ def sign_up(request):
             try:
                 User.objects.create_user(email=request.POST['email'], username=request.POST['username'],
                                          password=request.POST['password'])
-                return render_to_response('message.html', {'title': 'Success!', 'is_logged_in': is_logged_in,
-                                                           'message': 'Account created!'},
+                return render_to_response('message.html', {'title': _('Success!'), 'is_logged_in': is_logged_in,
+                                                           'message': _('Account created!')},
                                           context_instance=RequestContext(request))
             except IntegrityError:
-                return render_to_response('message.html', {'title': 'Error!', 'is_logged_in': is_logged_in,
-                                                           'message': 'User exists!'},
+                return render_to_response('message.html', {'title': _('Error!'), 'is_logged_in': is_logged_in,
+                                                           'message': _('User exists!')},
                                           context_instance=RequestContext(request))
 
         else:
-            return render_to_response('signup.html', {'title': 'Sign Up', 'is_logged_in': is_logged_in},
+            return render_to_response('signup.html', {'title': _('Sign Up'), 'is_logged_in': is_logged_in},
                                       context_instance=RequestContext(request))
     else:
-        return render_to_response('signup.html', {'title': 'Sign Up', 'is_logged_in': is_logged_in},
+        return render_to_response('signup.html', {'title': _('Sign Up'), 'is_logged_in': is_logged_in},
                                   context_instance=RequestContext(request))
 
 
@@ -59,22 +60,22 @@ def auth(request):
                         nxt = request.POST['next']
                     return HttpResponseRedirect(nxt)
                 else:
-                    return render_to_response('message.html', {'title': 'Error!', 'is_logged_in': is_logged_in,
-                                                               'message': 'Account suspended!'},
+                    return render_to_response('message.html', {'title': _('Error!'), 'is_logged_in': is_logged_in,
+                                                               'message': _('Account suspended!')},
                                               context_instance=RequestContext(request))
             else:
-                return render_to_response('message.html', {'title': 'Error!', 'is_logged_in': is_logged_in,
-                                                           'message': 'Invalid credentials!'},
+                return render_to_response('message.html', {'title': _('Error!'), 'is_logged_in': is_logged_in,
+                                                           'message': _('Invalid credentials!')},
                                           context_instance=RequestContext(request))
         else:
-            return render_to_response('auth.html', {'title': 'Login', 'is_logged_in': is_logged_in,
+            return render_to_response('auth.html', {'title': _('Login'), 'is_logged_in': is_logged_in,
                                                     'next': '/auctioneer/home/'},
                                       context_instance=RequestContext(request))
     else:
         if request.method == 'GET' and 'next' in request.GET:
             nxt = request.GET['next']
 
-        return render_to_response('auth.html', {'title': 'Login', 'is_logged_in': is_logged_in, 'next': nxt},
+        return render_to_response('auth.html', {'title': _('Login'), 'is_logged_in': is_logged_in, 'next': nxt},
                                   context_instance=RequestContext(request))
 
 
@@ -87,13 +88,13 @@ def browse(request):
     is_logged_in = request.user.is_authenticated()
     if request.method == 'POST' and 'query' in request.POST:
         content = Auctions.get_by_query(request.POST['query'])
-        return render_to_response('browse.html', {'title': 'Browse', 'is_logged_in': is_logged_in, 'is_search': True,
+        return render_to_response('browse.html', {'title': _('Browse'), 'is_logged_in': is_logged_in, 'is_search': True,
                                                   'query': request.POST['query'], 'content_list': content},
                                   context_instance=RequestContext(request))
     else:
         content = Auctions.get_all()
-        return render_to_response('browse.html', {'title': 'Browse', 'is_logged_in': is_logged_in, 'is_search': False,
-                                                  'content_list': content},
+        return render_to_response('browse.html', {'title': _('Browse'), 'is_logged_in': is_logged_in,
+                                                  'is_search': False, 'content_list': content},
                                   context_instance=RequestContext(request))
 
 
@@ -105,11 +106,11 @@ def account(request):
         user.email = request.POST['email']
         user.set_password(request.POST['password'])
         user.save()
-        return render_to_response('message.html', {'title': 'Success!', 'is_logged_in': is_logged_in,
-                                                   'message': 'Account updated!'},
+        return render_to_response('message.html', {'title': _('Success!'), 'is_logged_in': is_logged_in,
+                                                   'message': _('Account updated!')},
                                   context_instance=RequestContext(request))
     else:
-        return render_to_response('account.html', {'title': 'Account', 'is_logged_in': is_logged_in, 'user': user},
+        return render_to_response('account.html', {'title': _('Account'), 'is_logged_in': is_logged_in, 'user': user},
                                   context_instance=RequestContext(request))
 
 
@@ -126,7 +127,7 @@ def create(request):
             result = exp.match(request.POST['starting_price'])
             if stop >= start + timedelta(days=3) and start >= datetime.now() and result is not None:
                 shelf(request)
-                return render_to_response('confirm.html', {'title': 'Confirmation', 'is_logged_in': is_logged_in,
+                return render_to_response('confirm.html', {'title': _('Confirmation'), 'is_logged_in': is_logged_in,
                                                            'auction_title': request.POST['title'],
                                                            'description': request.POST['description'],
                                                            'starting_price': request.POST['starting_price'],
@@ -135,19 +136,19 @@ def create(request):
                                                            },
                                           context_instance=RequestContext(request))
             else:
-                return render_to_response('create.html', {'title': 'Create auction',
+                return render_to_response('create.html', {'title': _('Create auction'),
                                                           'is_logged_in': is_logged_in,
-                                                          'message': 'Input error, try again!',
+                                                          'message': _('Input error, try again!'),
                                                           },
                                           context_instance=RequestContext(request))
         except:
-            return render_to_response('create.html', {'title': 'Create auction',
+            return render_to_response('create.html', {'title': _('Create auction'),
                                                       'is_logged_in': is_logged_in,
-                                                      'message': 'Input error, try again!',
+                                                      'message': _('Input error, try again!'),
                                                       },
                                       context_instance=RequestContext(request))
     else:
-        return render_to_response('create.html', {'title': 'Create auction',
+        return render_to_response('create.html', {'title': _('Create auction'),
                                                   'is_logged_in': is_logged_in,
                                                   },
                                   context_instance=RequestContext(request))
@@ -166,18 +167,19 @@ def confirm(request):
                            startingPrice=session['starting_price'], startDate=session['start'],
                            stopDate=session['stop'])
             new.save()
-            send_mail('Auctioneer: Auction created!', 'Your auction ' + new.title + ' was created successfully!',
+            send_mail(_('Auctioneer: Auction created!'), _('Your auction') + ' ' + new.title +
+                      ' ' + _('was created successfully!'),
                       'auctioneer@some.mail', [new.seller.email], fail_silently=False)
             print 'Sent e-mail messages:'
             for message in mail.outbox:
                 print message.subject
-            return render_to_response('message.html', {'title': 'Success!', 'is_logged_in': is_logged_in,
-                                                       'message': 'Auction created!'},
+            return render_to_response('message.html', {'title': _('Success!'), 'is_logged_in': is_logged_in,
+                                                       'message': _('Auction created!')},
                                       context_instance=RequestContext(request))
         else:
             session['valid'] = 'False'
-            return render_to_response('message.html', {'title': 'Canceled!', 'is_logged_in': is_logged_in,
-                                                       'message': 'Auction creation was canceled!'},
+            return render_to_response('message.html', {'title': _('Canceled!'), 'is_logged_in': is_logged_in,
+                                                       'message': _('Auction creation was canceled!')},
                                       context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect('/auctioneer/home/')
@@ -196,7 +198,7 @@ def shelf(request):
 def auctions(request):
     is_logged_in = request.user.is_authenticated()
     content = Auctions.get_by_seller(request.user)
-    return render_to_response('main.html', {'title': 'My Auctions', 'is_logged_in': is_logged_in,
+    return render_to_response('main.html', {'title': _('My Auctions'), 'is_logged_in': is_logged_in,
                                             'tag': 'Auctions by '+request.user.username, 'content_list': content},
                               context_instance=RequestContext(request))
 
@@ -210,13 +212,13 @@ def details(request, auction_id):
         seller = False
 
     if auction is not None:
-        return render_to_response('details.html', {'title': 'Details', 'is_logged_in': is_logged_in,
+        return render_to_response('details.html', {'title': _('Details'), 'is_logged_in': is_logged_in,
                                                    'content': auction, 'seller': seller,
                                                    'admin': request.user.is_staff},
                                   context_instance=RequestContext(request))
     else:
-        return render_to_response('message.html', {'title': 'Not found!', 'is_logged_in': is_logged_in,
-                                                   'message': 'No such auction found!'},
+        return render_to_response('message.html', {'title': _('Not found!'), 'is_logged_in': is_logged_in,
+                                                   'message': _('No such auction found!')},
                                   context_instance=RequestContext(request))
 
 
@@ -233,16 +235,16 @@ def edit(request, auction_id):
                 content.save()
                 return HttpResponseRedirect('/auctioneer/auctions/' + str(content.id))
             else:
-                return render_to_response('edit.html', {'title': 'Edit', 'is_logged_in': is_logged_in,
+                return render_to_response('edit.html', {'title': _('Edit'), 'is_logged_in': is_logged_in,
                                                         'auction': content},
                                           context_instance=RequestContext(request))
         else:
-            return render_to_response('message.html', {'title': 'Not authorized!', 'is_logged_in': is_logged_in,
-                                                       'message': 'Action not authorized!'},
+            return render_to_response('message.html', {'title': _('Not authorized!'), 'is_logged_in': is_logged_in,
+                                                       'message': _('Action not authorized!')},
                                       context_instance=RequestContext(request))
     else:
-        return render_to_response('message.html', {'title': 'Not found!', 'is_logged_in': is_logged_in,
-                                                   'message': 'No such auction found!'},
+        return render_to_response('message.html', {'title': _('Not found!'), 'is_logged_in': is_logged_in,
+                                                   'message': _('No such auction found!')},
                                   context_instance=RequestContext(request))
 
 
@@ -256,14 +258,14 @@ def ban(request, auction_id):
             content.banned = True
             content.version += 1
             content.save()
-            seller_message = ('Auctioneer: Auction banned!',
-                              'Your auction ' + content.title + ' was banned!',
+            seller_message = (_('Auctioneer: Auction banned!'),
+                              _('Your auction') + ' ' + content.title + ' ' + _('was banned!'),
                               'auctioneer@some.mail', [content.seller.email])
             bidders = []
             for bid in content.bids_set.all():
                 bidders.append(bid.bidder.email)
-            bidder_message = ('Auctioneer: Auction banned!',
-                              'The auction ' + content.title + ' was banned!',
+            bidder_message = (_('Auctioneer: Auction banned!'),
+                              _('The auction') + ' ' + content.title + ' ' + _('was banned!'),
                               'auctioneer@some.mail', bidders)
             send_mass_mail((seller_message, bidder_message))
             print 'Sent e-mail messages:'
@@ -272,10 +274,10 @@ def ban(request, auction_id):
 
             return HttpResponseRedirect('/auctioneer/auctions/' + str(content.id))
         else:
-            return render_to_response('message.html', {'title': 'Not authorized!', 'is_logged_in': is_logged_in,
-                                                       'message': 'Action not authorized!'},
+            return render_to_response('message.html', {'title': _('Not authorized!'), 'is_logged_in': is_logged_in,
+                                                       'message': _('Action not authorized!')},
                                       context_instance=RequestContext(request))
     else:
-        return render_to_response('message.html', {'title': 'Not found!', 'is_logged_in': is_logged_in,
-                                                   'message': 'No such auction found!'},
+        return render_to_response('message.html', {'title': _('Not found!'), 'is_logged_in': is_logged_in,
+                                                   'message': _('No such auction found!')},
                                   context_instance=RequestContext(request))

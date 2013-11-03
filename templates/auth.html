@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load i18n %}
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 //EN" "http://www.w3.org/TR/html4/strict.dtd">
 
@@ -32,17 +33,17 @@
                     <form action="/auctioneer/login/" method="post">
                         {% csrf_token %}
                         <label>
-                            <span>Username:</span>
+                            <span>{% trans "Username:" %}</span>
                             <input type="text" size="30" name="username">
                         </label>
                         <label>
-                            <span>Password</span>
+                            <span>{% trans "Password" %}</span>
                             <input type="password" size="30" name="password">
                         </label>
                         <input type="hidden" name="next" value="{{ next }}"
                         <br>
                         <label>
-                            <input class="button" type="submit" size="30" value="Login">
+                            <input class="button" type="submit" size="30" value={% trans "Login" %}>
                         </label>
                     </form>
                 </div>

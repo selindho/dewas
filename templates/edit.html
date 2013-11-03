@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load i18n %}
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 //EN" "http://www.w3.org/TR/html4/strict.dtd">
 
@@ -29,33 +30,33 @@
 			<div id=Content>
 
                 <div>
-                    <h3>Edit Auction</h3>
+                    <h3>{% trans "Edit Auction" %}</h3>
                 </div>
 
                 <div>
                     <form action="/auctioneer/auctions/{{ auction.id }}/edit/" method="post">
                         {% csrf_token %}
                         <label>
-                            <span>Title</span>
+                            <span>{% trans "Title" %}</span>
                             <p>{{ auction.title }}</p>
                         </label>
                         <label>
-                            <span>Description</span>
+                            <span>{% trans "Description" %}</span>
                             <textarea rows="5" cols="30" name="description">{{ auction.description }}</textarea>
                         </label>
                         <label>
-                            <span>Starting price</span>
+                            <span>{% trans "Starting price" %}</span>
                             <p>{{ auction.startingPrice }} EUR</p>
                         </label>
                         <label>
-                            <span>Start date</span>
+                            <span>{% trans "Start date" %}</span>
                             <p>{{ auction.startDate }}</p>
                         </label>
                         <label>
-                            <span>Closing date</span>
+                            <span>{% trans "Deadline" %}</span>
                             <p>{{ auction.stopDate }}</p>
                         </label>
-                        <input type="submit" class="button" value="Save">
+                        <input type="submit" class="button" value={% trans "Save" %}>
                     </form>
                 </div>
 

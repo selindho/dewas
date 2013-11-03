@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load i18n %}
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 //EN" "http://www.w3.org/TR/html4/strict.dtd">
 
@@ -29,24 +30,24 @@
 			<div id=Content>
 
                 <div>
-                    <h3>Confirm auction:</h3>
-                    <p>Title: {{ auction_title }}</p>
-                    <p>Description: {{ description }}</p>
-                    <p>Starting price: {{ starting_price }}</p>
-                    <p>Start date: {{ start }}</p>
-                    <p>Closing date: {{ stop }}</p>
+                    <h3>{% trans "Confirm auction:" %}</h3>
+                    <p>{% trans "Title:" %} {{ auction_title }}</p>
+                    <p>{% trans "Description:" %} {{ description }}</p>
+                    <p>{% trans "Starting price:" %} {{ starting_price }}</p>
+                    <p>{% trans "Starting date:" %} {{ start }}</p>
+                    <p>{% trans "Deadline:" %} {{ stop }}</p>
                 </div>
 
                 <div>
-                    <h3>Confirm auction?</h3>
+                    <h3>{% trans "Confirm auction?" %}</h3>
                     <form action="/auctioneer/auctions/confirm/" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="status" value="True">
-                        <input type="submit" class="button" value="Yes">
+                        <input type="submit" class="button" value={% trans "Yes" %}>
                     </form>
                     <form action="/auctioneer/auctions/confirm/" method="post">
                         {% csrf_token %}
-                        <input type="hidden" name="status" value="False">
+                        <input type="hidden" name="status" value={% trans "No" %}>
                         <input type="submit" class="button" value="No">
                     </form>
                 </div>

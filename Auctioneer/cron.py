@@ -7,6 +7,7 @@ from Auctioneer.models import *
 class AuctionResolver(CronJobBase):
     RUN_EVERY_MINS = 1
     RETRY_AFTER_FAILURE_MINS = 1
+    MIN_NUM_FAILURES = 5
 
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS, retry_after_failure_mins=RETRY_AFTER_FAILURE_MINS)
     code = 'Auctioneer.auction_resolver'

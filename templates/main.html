@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load i18n %}
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 //EN" "http://www.w3.org/TR/html4/strict.dtd">
 
@@ -35,23 +36,23 @@
                 {% for content in content_list %}
                 <div>
 				    <h3>{{ content.title }}{% if content.banned %} [BANNED]{% endif %}</h3>
-                    <p>Created by: {{ content.seller }}</p>
+                    <p>{% trans "Created by:" %} {{ content.seller }}</p>
                     {% with content.bids_set.all|first as bid %}
                     {% if bid %}
-                    <p>Current price: {{ bid.amount }} EUR</p>
+                    <p>{% trans "Current price:" %} {{ bid.amount }} EUR</p>
                     {% else %}
-                    <p>Current price: {{ content.startingPrice }} EUR</p>
+                    <p>{% trans "Current price:" %} {{ content.startingPrice }} EUR</p>
                     {% endif %}
                     {% endwith %}
-                    <p>Start date: {{ content.startDate }}</p>
-                    <p>Deadline: {{ content.stopDate }}</p>
+                    <p>{% trans "Start date:" %} {{ content.startDate }}</p>
+                    <p>{% trans "Deadline:" %} {{ content.stopDate }}</p>
                     <form action="/auctioneer/auctions/{{ content.id }}" method="get">
-                        <input type="submit" class="button" value="Details">
+                        <input type="submit" class="button" value={% trans "Details" %}>
                     </form>
                 </div>
                 {% empty %}
                 <div>
-                    <h3>No content!</h3>
+                    <h3>{% trans "No content!" %}</h3>
                 </div>
                 {% endfor %}
 

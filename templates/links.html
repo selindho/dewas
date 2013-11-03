@@ -1,14 +1,14 @@
 <div id=SecondaryMenu>
-    <div><h4><a href='/auctioneer/home/'>Home</a></h4></div>
-    <div><h4><a href='/auctioneer/auctions/'>Browse</a></h4></div>
+    <div><h4><a href='/auctioneer/home/'>{% trans "Home" %}</a></h4></div>
+    <div><h4><a href='/auctioneer/auctions/'>{% trans "Browse" %}</a></h4></div>
 
 {% if is_logged_in %}
-    <div><h4><a href='/auctioneer/account/auctions/'>My Auctions</a></h4></div>
-    <div><h4><a href='/auctioneer/auctions/create/'>Create</a></h4></div>
-    <div><h4><a href='/auctioneer/account/'>Account</a></h4></div>
-    <div><h4><a href='/auctioneer/logout/'>Logout</a></h4></div>
+    <div><h4><a href='/auctioneer/account/auctions/'>{% trans "My Auctions" %}</a></h4></div>
+    <div><h4><a href='/auctioneer/auctions/create/'>{% trans "Create" %}</a></h4></div>
+    <div><h4><a href='/auctioneer/account/'>{% trans "Account" %}</a></h4></div>
+    <div><h4><a href='/auctioneer/logout/'>{% trans "Logout" %}</a></h4></div>
 {% else %}
-    <div><h4><a href='/auctioneer/signup/'>Sign Up</a></h4></div>
-    <div><h4><a href='/auctioneer/login/'>Login</a></h4></div>
+    <div><h4><a href='/auctioneer/signup/'>{% trans "Sign Up" %}</a></h4></div>
+    <div><h4><a href='/auctioneer/login/'>{% trans "Login" %}</a></h4></div>
 {% endif %}
 </div>
