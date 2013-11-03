@@ -6,30 +6,29 @@
 <html>
 
 	<head>
-	
+
 		<title>Auctioneer - {{ title }}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		<link href="{% static "style_main.css"%}" rel="stylesheet" type="text/css">
-		
+
 	</head>
 
-	<body>	
-	
+	<body>
+
 		<div id=Container>
-		
+
 			<div id=PrimaryMenu>
 				<h1>Auctioneer - {{ title }}</h1>
 			</div>
-			
+
             {% include "links.html" %}
-			
+
 			<div id=TopPatch>
-				<!-- Patch element at top of the page -->			
+				<!-- Patch element at top of the page -->
 			</div>
-		
+
 			<div id=Content>
 
-                {% with content as auction %}
                 <div>
                     <h3>{{ auction.title }}{% if auction.banned %} [BANNED]{% endif %}</h3>
                     <p>{% trans "Created by:" %} {{ auction.seller }}</p>
@@ -44,39 +43,32 @@
                     <h3>{% trans "Current price:" %} {{ auction.startingPrice }} EUR</h3>
                     {% endif %}
                     {% endwith %}
-                    {% if seller %}
-                    <form action="/auctioneer/auctions/{{ auction.id }}/edit/" method="get">
-                        <input type="submit" class="button" value={% trans "Edit" %}>
-                    </form>
-                    {% else %}
-                    <form action="/auctioneer/auctions/{{ auction.id }}/bid/" method="get">
-                        <input type="submit" class="button" value={% trans "Bid" %}>
-                    </form>
-                    {% endif %}
-                    {% if admin %}
-                    <form action="/auctioneer/auctions/{{ auction.id }}/ban/" method="get">
-                        <input type="submit" class="button" value={% trans "Ban" %}>
-                    </form>
-                    {% endif %}
                 </div>
 
-                {% for bid in auction.bids_set.all %}
+                {% if message %}
                 <div>
-                    <h3>{% trans "Bid:" %} {{ bid.amount }} EUR</h3>
-                    <p>{% trans "by:" %} {{ bid.bidder }}</p>
-                    <p>@ {{ bid.timestamp }}</p>
+                    <h3>{{ message }}</h3>
                 </div>
-                {% empty %}
+                {% endif %}
+
                 <div>
-                    <h3>{% trans "No bids!" %}</h3>
+                    <h3>{% trans "Your bid" %}</h3>
+                    <form action="/auctioneer/auctions/{{ auction.id }}/bid/" method="post">
+                        {% csrf_token %}
+                        <label>
+                            <span>{% trans "Amount" %}</span>
+                            <input class="field" type="text" name="amount">
+                        </label>
+                        <p>{% trans "Format: x.dd where x is 1 to 10 numerals." %}</p>
+
+                        <input class="button" type="submit" value={% trans "Submit" %}>
+                    </form>
                 </div>
-                {% endfor %}
-                {% endwith %}
 
     		</div>
-			
+
 		</div>
-		
+
 	</body>
 
 </html>
