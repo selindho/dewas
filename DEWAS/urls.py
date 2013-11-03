@@ -30,6 +30,7 @@ urlpatterns = patterns('',
     url(r'^auctioneer/auctions/confirm/$', confirm),
     url(r'^auctioneer/auctions/(?P<auction_id>\w+)/edit/$', edit),
     url(r'^auctioneer/auctions/(?P<auction_id>\w+)/ban/$', ban),
+    url(r'^auctioneer/language/$', language),
     # url(r'^auctioneer/auctions/(?P<auction_id>\w+)/bid/$', bid)
 
     # RESTful interface

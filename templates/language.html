@@ -30,20 +30,23 @@
 			<div id=Content>
 
                 <div>
-                    <form action="/auctioneer/login/" method="post">
+                    <h3>{% trans "Language" %}</h3>
+                    <form action="/auctioneer/language/" method="post">
                         {% csrf_token %}
                         <label>
-                            <span>{% trans "Username:" %}</span>
-                            <input class="field" type="text" size="30" name="username">
+                            <select name="language" size="2">
+                            {% if language == 'sv' %}
+                            <option value="en">{% trans "English" %}</option>
+                            <option value="sv" selected>{% trans "Swedish" %}</option>
+                            {% else %}
+                            <option value="en" selected>{% trans "English" %}</option>
+                            <option value="sv">{% trans "Swedish" %}</option>
+                            {% endif %}
+                            </select>
                         </label>
+                        <br><br>
                         <label>
-                            <span>{% trans "Password" %}</span>
-                            <input class="field" type="password" size="30" name="password">
-                        </label>
-                        <input type="hidden" name="next" value="{{ next }}"
-                        <br>
-                        <label>
-                            <input class="button" type="submit" size="30" value={% trans "Login" %}>
+                            <input class="button" type="submit" size="30" value={% trans "Save" %}>
                         </label>
                     </form>
                 </div>

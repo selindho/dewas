@@ -1,6 +1,8 @@
+{% load i18n %}
 <div id=SecondaryMenu>
     <div><h4><a href='/auctioneer/home/'>{% trans "Home" %}</a></h4></div>
     <div><h4><a href='/auctioneer/auctions/'>{% trans "Browse" %}</a></h4></div>
+    <div><h4><a href='/auctioneer/language/'>{% trans "Language" %}</a></h4></div>
 
 {% if is_logged_in %}
     <div><h4><a href='/auctioneer/account/auctions/'>{% trans "My Auctions" %}</a></h4></div>

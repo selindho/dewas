@@ -44,7 +44,7 @@
                         {% csrf_token %}
                         <label>
                             <span>{% trans "Title" %}</span>
-                            <input type="text" name="title">
+                            <input class="field" type="text" name="title">
                         </label>
                         <label>
                             <span>{% trans "Description" %}</span>
@@ -52,15 +52,15 @@
                         </label>
                         <label>
                             <span>{% trans "Starting price" %}</span>
-                            <input type="text" name="starting_price">
+                            <input class="field" type="text" name="starting_price">
                         </label>
                         <label>
                             <span>{% trans "Start date (YYYY-MM-DD hh:mm)" %}</span>
-                            <input type="text" name="start">
+                            <input class="field" type="text" name="start">
                         </label>
                         <label>
                             <span>{% trans "Deadline (YYYY-MM-DD hh:mm)" %}</span>
-                            <input type="text" name="stop">
+                            <input class="field" type="text" name="stop">
                         </label>
                         <p>{% trans "NOTE: Minimum duration is 3 days (72h)" %}</p>
                         <input type="submit" class="button" value={% trans "Create" %}>

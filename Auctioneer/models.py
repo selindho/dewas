@@ -89,3 +89,16 @@ class Bids(models.Model):
             return cls.objects.filter(auction=auction)[1]
         except:
             return None
+
+
+class Languages(models.Model):
+
+    user = models.ForeignKey(User, primary_key=True)
+    language = models.CharField(max_length=10, default='en')
+
+    @classmethod
+    def get_language_by_user(cls, user):
+        try:
+            return cls.objects.get(user=user)
+        except:
+            return None

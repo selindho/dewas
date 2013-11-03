@@ -1,0 +1,335 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-03 18:51+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: views.py:20 templates/links.html:3
+msgid "Home"
+msgstr "Hem"
+
+#: views.py:21
+msgid "Upcoming auctions"
+msgstr "Kommande auktioner"
+
+#: views.py:33 views.py:123 views.py:190
+msgid "Success!"
+msgstr "Framgång!"
+
+#: views.py:34
+msgid "Account created!"
+msgstr "Konto skapat!"
+
+#: views.py:37 views.py:77 views.py:81
+msgid "Error!"
+msgstr "Fel!"
+
+#: views.py:38
+msgid "User exists!"
+msgstr "Användaren existerar!"
+
+#: views.py:42 views.py:45 templates/links.html:13
+msgid "Sign Up"
+msgstr "Skapa Konto"
+
+#: views.py:78
+msgid "Account suspended!"
+msgstr "Konto inaktiverat!"
+
+#: views.py:82
+msgid "Invalid credentials!"
+msgstr "Felaktiga uppgifter!"
+
+#: views.py:85 views.py:92 templates/auth.html:46 templates/links.html:14
+msgid "Login"
+msgstr "Logga in"
+
+#: views.py:105 views.py:110 templates/links.html:4
+msgid "Browse"
+msgstr "Bläddra"
+
+#: views.py:124
+msgid "Account updated!"
+msgstr "Konto uppdaterat!"
+
+#: views.py:127 templates/links.html:10
+msgid "Account"
+msgstr "Konto"
+
+#: views.py:144
+msgid "Confirmation"
+msgstr "Sammandrag"
+
+#: views.py:153 views.py:159 views.py:165
+msgid "Create auction"
+msgstr "Skapa auktion"
+
+#: views.py:155 views.py:161
+msgid "Input error, try again!"
+msgstr "Felaktig information, försök igen!"
+
+#: views.py:184
+msgid "Auctioneer: Auction created!"
+msgstr "Auctioneer: Auktion skapad!"
+
+#: views.py:184 views.py:276
+msgid "Your auction"
+msgstr "Din auktion"
+
+#: views.py:185
+msgid "was created successfully!"
+msgstr "skapades framgångsrikt!"
+
+#: views.py:191
+msgid "Auction created!"
+msgstr "Auktion skapad!"
+
+#: views.py:195
+msgid "Canceled!"
+msgstr "Avbrutet!"
+
+#: views.py:196
+msgid "Auction creation was canceled!"
+msgstr "Skapandet av auktion avbrutet"
+
+#: views.py:215 templates/links.html:8
+msgid "My Auctions"
+msgstr "Mina Auktioner"
+
+#: views.py:216
+#, fuzzy
+msgid "Auctions by"
+msgstr "Auktioner för"
+
+#: views.py:229 templates/browse.html:63 templates/main.html:50
+msgid "Details"
+msgstr "Detaljer"
+
+#: views.py:234 views.py:260 views.py:295
+msgid "Not found!"
+msgstr "Inte hittad!"
+
+#: views.py:235 views.py:261 views.py:296
+msgid "No such auction found!"
+msgstr "Ingen dylik auktion hittad!"
+
+#: views.py:252 templates/details.html:49
+msgid "Edit"
+msgstr "Editera"
+
+#: views.py:256 views.py:291
+msgid "Not authorized!"
+msgstr "Ej tillåtet!"
+
+#: views.py:257 views.py:292
+msgid "Action not authorized!"
+msgstr "Åtgärden ej tillåten!"
+
+#: views.py:275 views.py:281
+msgid "Auctioneer: Auction banned!"
+msgstr "Auctioneer: Auktionen bannad!"
+
+#: views.py:276 views.py:282
+msgid "was banned!"
+msgstr "har bannats!"
+
+#: views.py:282
+msgid "The auction"
+msgstr "Auktionen"
+
+#: views.py:312 views.py:320 templates/language.html:33 templates/links.html:5
+msgid "Language"
+msgstr "Språk"
+
+#: templates/account.html:33
+msgid "Account details for:"
+msgstr "Kontouppgifter för:"
+
+#: templates/account.html:38
+msgid "E-Mail:"
+msgstr "E-Post:"
+
+#: templates/account.html:42
+msgid "Password:"
+msgstr "Lösenord:"
+
+#: templates/account.html:47 templates/edit.html:59 templates/language.html:49
+msgid "Save"
+msgstr "Spara"
+
+#: templates/auth.html:36
+msgid "Username:"
+msgstr "Användarnamn:"
+
+#: templates/auth.html:40 templates/signup.html:44
+msgid "Password"
+msgstr "Lösenord"
+
+#: templates/browse.html:38
+msgid "Search"
+msgstr "Sök"
+
+#: templates/browse.html:44
+msgid "Results for:"
+msgstr "Resultat för:"
+
+#: templates/browse.html:51
+msgid "[BANNED]"
+msgstr "[BANNAD]"
+
+#: templates/browse.html:52 templates/details.html:35 templates/main.html:39
+msgid "Created by:"
+msgstr "Skapad av:"
+
+#: templates/browse.html:55 templates/browse.html.py:57
+#: templates/details.html:40 templates/details.html.py:44
+#: templates/main.html:42 templates/main.html.py:44
+msgid "Current price:"
+msgstr "Nuvarande pris:"
+
+#: templates/browse.html:60 templates/main.html:47
+msgid "Start date:"
+msgstr "Startdatum:"
+
+#: templates/browse.html:61 templates/confirm.html:38
+#: templates/details.html:36 templates/main.html:48
+msgid "Deadline:"
+msgstr "Slutdatum:"
+
+#: templates/browse.html:68 templates/main.html:55
+msgid "No content!"
+msgstr "Inget innehåll!"
+
+#: templates/confirm.html:33
+#, fuzzy
+msgid "Confirm auction:"
+msgstr "Din auktion"
+
+#: templates/confirm.html:34
+msgid "Title:"
+msgstr "Titel:"
+
+#: templates/confirm.html:35 templates/details.html:37
+msgid "Description:"
+msgstr "Beskrivning:"
+
+#: templates/confirm.html:36
+msgid "Starting price:"
+msgstr "Utgångspris:"
+
+#: templates/confirm.html:37
+msgid "Starting date:"
+msgstr "Startdatum:"
+
+#: templates/confirm.html:42
+#, fuzzy
+msgid "Confirm auction?"
+msgstr "Godkänn auktion?"
+
+#: templates/confirm.html:46
+msgid "Yes"
+msgstr "Ja"
+
+#: templates/confirm.html:50
+msgid "No"
+msgstr "Nej"
+
+#: templates/create.html:33
+#, fuzzy
+msgid "Create Auction"
+msgstr "Skapa auction"
+
+#: templates/create.html:46 templates/edit.html:40
+msgid "Title"
+msgstr "Titel"
+
+#: templates/create.html:50 templates/edit.html:44
+msgid "Description"
+msgstr "Beskrivning"
+
+#: templates/create.html:54 templates/edit.html:48
+msgid "Starting price"
+msgstr "Utgångspris"
+
+#: templates/create.html:58
+msgid "Start date (YYYY-MM-DD hh:mm)"
+msgstr "Startdatum (YYYY-MM-DD hh:mm)"
+
+#: templates/create.html:62
+msgid "Deadline (YYYY-MM-DD hh:mm)"
+msgstr "Slutdatum (YYYY-MM-DD hh:mm)"
+
+#: templates/create.html:65
+msgid "NOTE: Minimum duration is 3 days (72h)"
+msgstr "OBS: Minsta tillåtna auktionstid är 3 dagar (72h)"
+
+#: templates/create.html:66 templates/links.html:9 templates/signup.html:49
+#, fuzzy
+msgid "Create"
+msgstr "Skapa"
+
+#: templates/details.html:41 templates/details.html.py:62
+msgid "by:"
+msgstr "av:"
+
+#: templates/details.html:54
+msgid "Ban"
+msgstr "Banna"
+
+#: templates/details.html:61
+msgid "Bid:"
+msgstr "Bud:"
+
+#: templates/details.html:67
+msgid "No bids!"
+msgstr "Inga bud!"
+
+#: templates/edit.html:33
+#, fuzzy
+msgid "Edit Auction"
+msgstr "Editera Auktion"
+
+#: templates/edit.html:52
+msgid "Start date"
+msgstr "Startdatum"
+
+#: templates/edit.html:56
+msgid "Deadline"
+msgstr "Slutdatum"
+
+#: templates/language.html:39 templates/language.html.py:42
+msgid "English"
+msgstr "Engelska"
+
+#: templates/language.html:40 templates/language.html.py:43
+msgid "Swedish"
+msgstr "Svenska"
+
+#: templates/links.html:11
+msgid "Logout"
+msgstr "Logga ut"
+
+#: templates/signup.html:36
+msgid "E-Mail"
+msgstr "E-Post"
+
+#: templates/signup.html:40
+msgid "Username"
+msgstr "Användarnamn"
+
+#~ msgid "Language:"
+#~ msgstr "Språk:"

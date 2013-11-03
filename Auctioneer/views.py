@@ -56,6 +56,20 @@ def auth(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
+                    l = Languages.get_language_by_user(user)
+                    if l is None:
+                        try:
+                            lang = request.session['django_language']
+                        except KeyError:
+                            lang = 'en'
+                            request.session['django_language'] = lang
+                    else:
+                        lang = l.language
+                        request.session['django_language'] = lang
+
+                    l = Languages(user=user, language=lang)
+                    l.save()
+
                     if 'next' in request.POST:
                         nxt = request.POST['next']
                     return HttpResponseRedirect(nxt)
@@ -199,7 +213,7 @@ def auctions(request):
     is_logged_in = request.user.is_authenticated()
     content = Auctions.get_by_seller(request.user)
     return render_to_response('main.html', {'title': _('My Auctions'), 'is_logged_in': is_logged_in,
-                                            'tag': 'Auctions by '+request.user.username, 'content_list': content},
+                                            'tag': _('Auctions by')+' '+request.user.username, 'content_list': content},
                               context_instance=RequestContext(request))
 
 
@@ -281,3 +295,28 @@ def ban(request, auction_id):
         return render_to_response('message.html', {'title': _('Not found!'), 'is_logged_in': is_logged_in,
                                                    'message': _('No such auction found!')},
                                   context_instance=RequestContext(request))
+
+
+def language(request):
+    is_logged_in = request.user.is_authenticated()
+
+    if is_logged_in:
+        user = request.user
+        lang = Languages.get_language_by_user(user)
+        if request.method == 'POST' and 'language' in request.POST:
+            lang = Languages(user=user, language=request.POST['language'])
+            lang.save()
+            request.session['django_language'] = lang.language
+            return HttpResponseRedirect('/auctioneer/home/')
+        else:
+            return render_to_response('language.html', {'title': _('Language'), 'is_logged_in': is_logged_in,
+                                                        'language': lang.language},
+                                      context_instance=RequestContext(request))
+    else:
+        if request.method == 'POST' and 'language' in request.POST:
+            request.session['django_language'] = request.POST['language']
+            return HttpResponseRedirect('/auctioneer/home/')
+        else:
+            return render_to_response('language.html', {'title': _('Language'), 'is_logged_in': is_logged_in,
+                                                        'language': 'en'},
+                                      context_instance=RequestContext(request))

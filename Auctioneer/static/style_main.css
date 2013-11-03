@@ -103,7 +103,7 @@ span {
 	text-shadow: 1px 1px 2px #000000, -1px -1px 1px #000000;
 }
 
-input {
+input.field {
 	position: relative;
 	display: block;
 	font-family: Verdana, Geneva, sans-serif;
@@ -115,6 +115,14 @@ input {
 	margin-bottom: 10px;
 }
 
+input.radio {
+	position: relative;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 16px;
+    color: #000000;
+    background-color: #B1B1B1;
+}
+
 input:focus {
 	border-color: #58FF00;
 }
@@ -122,9 +130,12 @@ input:focus {
 input.button {
 	position: relative;
 	width: 100px;
+    height: 25px;
 	background-color: #B1B1B1;
 	color: #000000;
     font-family: Verdana, Geneva, sans-serif;
+    border: 1px solid #000000;
+	box-shadow: 2px 2px 2px #000000, -1px -1px 2px #000000;
 }
 
 input.button:focus {
