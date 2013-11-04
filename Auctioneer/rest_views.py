@@ -66,14 +66,22 @@ def rest_bids(request, auction_id):
             user = authenticate(username=split[0], password=split[2])
             if user is not None:
                 try:
-                    data = JSONParser.parse(request)
-                    serializer = BidsSerializer(data=data)
-                    if serializer.is_valid():
-                        print serializer.amount
-                    return JSONResponse(serializer.amount, status=200)
-
+                    data = JSONParser().parse(request)
                 except:
                     return JSONResponse({"error": "failed to parse request"}, status=200)
+
+                serializer = BidsSerializer(data=data)
+                if serializer.is_valid():
+                    auction = Auctions.get_by_id(auction_id)
+                    amount = serializer.object.get('amount')
+                    if auction is not None:
+                        status = bid_validate(user, auction, auction.version, str(amount))
+                        return JSONResponse(status, status=200)
+                    else:
+                        return JSONResponse({"error": "auction not found"}, status=200)
+
+                else:
+                    return JSONResponse({"error": "serialization failed"}, status=200)
 
             else:
                 return JSONResponse({"error": "invalid credentials"}, status=200)
