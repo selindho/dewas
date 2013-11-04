@@ -106,7 +106,7 @@ def browse(request):
                                                   'query': request.POST['query'], 'content_list': content},
                                   context_instance=RequestContext(request))
     else:
-        content = Auctions.get_all()
+        content = Auctions.get_active()
         return render_to_response('browse.html', {'title': _('Browse'), 'is_logged_in': is_logged_in,
                                                   'is_search': False, 'content_list': content},
                                   context_instance=RequestContext(request))
@@ -135,11 +135,15 @@ def create(request):
     if request.method == 'POST' and 'title' in request.POST and 'description' in request.POST and \
                          'start' in request.POST and 'stop' in request.POST and 'starting_price' in request.POST:
         try:
-            start = datetime.strptime(request.POST['start'], '%Y-%m-%d %H:%M')
+            now = datetime.now()
+            if request.POST['start'] != 'now':
+                start = datetime.strptime(request.POST['start'], '%Y-%m-%d %H:%M')
+            else:
+                start = datetime.now()
             stop = datetime.strptime(request.POST['stop'], '%Y-%m-%d %H:%M')
             exp = re.compile(r'^\d{1,10}(.\d{0,2})?$')
             result = exp.match(request.POST['starting_price'])
-            if stop >= start + timedelta(days=3) and start >= datetime.now() and result is not None:
+            if stop >= start + timedelta(days=3) and (request.POST['start'] == 'now' or start >= now) and result is not None:
                 shelf(request)
                 return render_to_response('confirm.html', {'title': _('Confirmation'), 'is_logged_in': is_logged_in,
                                                            'auction_title': request.POST['title'],
@@ -203,7 +207,10 @@ def shelf(request):
         request.session['valid'] = 'True'
         request.session['title'] = request.POST['title']
         request.session['description'] = request.POST['description']
-        request.session['start'] = request.POST['start']
+        if request.POST['start'] == 'now':
+            request.session['start'] = datetime.now()
+        else:
+            request.session['start'] = request.POST['start']
         request.session['stop'] = request.POST['stop']
         request.session['starting_price'] = request.POST['starting_price']
 
@@ -332,7 +339,9 @@ def bid(request, auction_id):
         status = bid_validate(user, auction, request.session['version'], request.POST['amount'])
 
         if status == 'valid':
+            auction.version = int(auction.version) + 1
             b = Bids(auction=auction, bidder=user, amount=request.POST['amount'], timestamp=datetime.now())
+            auction.save()
             b.save()
             bid_send_mail(user, auction)
 
@@ -377,6 +386,12 @@ def bid(request, auction_id):
                                       'message': _('Auction is already resolved!')},
                                       context_instance=RequestContext(request))
 
+        elif status == 'auction not started':
+
+            return render_to_response('message.html', {'title': _('Auction not started!'), 'is_logged_in': is_logged_in,
+                                      'message': _('Auction has not started yet!')},
+                                      context_instance=RequestContext(request))
+
         else:
             return HttpResponseRedirect('/auctioneer/auctions/'+auction_id+'/')
 
@@ -404,34 +419,38 @@ def bid_send_mail(user, auction):
             bidder_message = ('Auctioneer: You were outbid!',
                               'Someone outbid you on the auction ' + auction.title + '!',
                               'auctioneer@some.mail', bidders)
-            send_mass_mail(bidder_message)
+            send_mass_mail((bidder_message,))
 
 
 def bid_validate(user, auction, version, amount):
-    if auction is not None:
-        if not auction.resolved:
-            if user != auction.seller:
-                if version == auction.version:
-                    top = list(auction.bids_set.all()[:1])
-                    exp = re.compile(r'^\d{1,10}(.\d{0,2})?$')
-                    result = exp.match(amount)
-                    if top:
-                        if top[0].bidder != user:
-                            if result is not None and amount >= top[0].amount + Decimal('0.01'):
+    if auction is not None and not auction.banned:
+        if auction.startDate <= datetime.now():
+            if not auction.resolved:
+                if user != auction.seller:
+                    if version == auction.version:
+                        top = list(auction.bids_set.all()[:1])
+                        exp = re.compile(r'^\d{1,10}(.\d{0,2})?$')
+                        result = exp.match(amount)
+                        amount = Decimal(amount)
+                        if top:
+                            if top[0].bidder != user:
+                                if result is not None and amount >= top[0].amount + Decimal('0.01'):
+                                    return "valid"
+                                else:
+                                    return "invalid bid"
+                            else:
+                                return "already top"
+                        else:
+                            if result is not None and amount >= auction.startingPrice + Decimal('0.01'):
                                 return "valid"
                             else:
                                 return "invalid bid"
-                        else:
-                            return "already top"
                     else:
-                        if result is not None and amount >= auction.startingPrice + Decimal('0.01'):
-                            return "valid"
-                        else:
-                            return "invalid bid"
+                        return "invalid version"
                 else:
-                    return "invalid version"
+                    return "own auction"
             else:
-                return "own auction"
+                return "auction resolved"
         else:
-            return "auction resolved"
+            return "auction not started"
     return "invalid auction"

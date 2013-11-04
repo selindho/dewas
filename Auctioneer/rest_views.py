@@ -57,6 +57,9 @@ def rest_auctions(request, query):
 @csrf_exempt
 def rest_bids(request, auction_id):
 
+    auction = Auctions.get_by_id(auction_id)
+    version = auction.version
+
     if request.method == 'POST':
         # Authenticate user
         if 'HTTP_AUTHORIZATION' in request.META:
@@ -72,13 +75,15 @@ def rest_bids(request, auction_id):
 
                 serializer = BidsSerializer(data=data)
                 if serializer.is_valid():
-                    auction = Auctions.get_by_id(auction_id)
+
                     amount = str(serializer.object.get('amount'))
                     if auction is not None:
-                        status = bid_validate(user, auction, auction.version, amount)
+                        status = bid_validate(user, auction, version, amount)
 
                         if status == 'valid':
+                            auction.version = int(auction.version) + 1
                             b = Bids(auction=auction, bidder=user, amount=amount, timestamp=datetime.now())
+                            auction.save()
                             b.save()
                             bid_send_mail(user, auction)
                             return JSONResponse({"success": "bid placed"}, status=200)

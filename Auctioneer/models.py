@@ -64,6 +64,13 @@ class Auctions(models.Model):
         except:
             return None
 
+    @classmethod
+    def get_active(cls):
+        try:
+            return cls.objects.filter(resolved=False, banned=False)
+        except:
+            return None
+
 
 class Bids(models.Model):
 
