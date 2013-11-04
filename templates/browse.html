@@ -33,7 +33,7 @@
                     <form action="/auctioneer/auctions/" method="post">
                         {% csrf_token %}
                         <label>
-                            <input type="text" name="query">
+                            <input class="field" type="text" name="query">
                         </label>
                         <input type="submit" class="button" value={% trans "Search" %}>
                     </form>
