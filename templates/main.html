@@ -35,7 +35,7 @@
 
                 {% for content in content_list %}
                 <div>
-				    <h3>{{ content.title }}{% if content.banned %} [BANNED]{% endif %}</h3>
+				    <h3>{{ content.title }}{% if content.banned %} {% trans "[BANNED]" %}{% endif %}{% if content.resolved %} {% trans "[RESOLVED]" %}{% endif %}</h3>
                     <p>{% trans "Created by:" %} {{ content.seller }}</p>
                     {% with content.bids_set.all|first as bid %}
                     {% if bid %}

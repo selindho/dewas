@@ -328,62 +328,110 @@ def bid(request, auction_id):
     user = request.user
     auction = Auctions.get_by_id(auction_id)
 
-    if auction is not None and not auction.resolved:
-        if request.method == 'POST' and 'amount' in request.POST and user != auction.seller:
-            try:
-                if request.session['version'] == auction.version:
+    if request.method == 'POST' and 'amount' in request.POST and 'version' in request.session:
+        status = bid_validate(user, auction, request.session['version'], request.POST['amount'])
+
+        if status == 'valid':
+            b = Bids(auction=auction, bidder=user, amount=request.POST['amount'], timestamp=datetime.now())
+            b.save()
+            bid_send_mail(user, auction)
+
+            return HttpResponseRedirect('/auctioneer/auctions/'+auction_id+'/')
+
+        elif status == 'invalid bid':
+
+            return render_to_response('message.html', {'title': _('Invalid bid!'),
+                                      'is_logged_in': is_logged_in,
+                                      'message': _('Your bid is invalid!')},
+                                      context_instance=RequestContext(request))
+
+        elif status == 'already top':
+
+            return render_to_response('message.html', {'title': _('Already high bidder!'),
+                                      'is_logged_in': is_logged_in,
+                                      'message': _('You are already the high bidder!')},
+                                      context_instance=RequestContext(request))
+
+        elif status == 'invalid version':
+
+            return render_to_response('bid.html', {'title': _('Bid'), 'is_logged_in': is_logged_in,
+                                      'auction': auction,
+                                      'message': _('Auction has changed!')},
+                                      context_instance=RequestContext(request))
+
+        elif status == 'own auction':
+
+            return render_to_response('message.html', {'title': _('Not Allowed!'), 'is_logged_in': is_logged_in,
+                                      'message': _('Cannot bid on your own auction!')},
+                                      context_instance=RequestContext(request))
+
+        elif status == 'invalid auction':
+
+            return render_to_response('message.html', {'title': _('Not found!'), 'is_logged_in': is_logged_in,
+                                      'message': _('No such auction found!')},
+                                      context_instance=RequestContext(request))
+
+        elif status == 'auction resolved':
+
+            return render_to_response('message.html', {'title': _('Auction resolved!'), 'is_logged_in': is_logged_in,
+                                      'message': _('Auction is already resolved!')},
+                                      context_instance=RequestContext(request))
+
+        else:
+            return HttpResponseRedirect('/auctioneer/auctions/'+auction_id+'/')
+
+    else:
+        request.session['version'] = auction.version
+        return render_to_response('bid.html', {'title': _('Bid'), 'is_logged_in': is_logged_in,
+                                  'auction': auction},
+                                  context_instance=RequestContext(request))
+
+
+def bid_send_mail(user, auction):
+    seller_message = ('Auctioneer: Bid accepted!!',
+                      user.username + ' has bid on your auction ' + auction.title + '.',
+                      'auctioneer@some.mail', [auction.seller.email])
+    top_bidder_message = ('Auctioneer: Bid accepted!!',
+                          'Your bid on ' + auction.title + ' has been accepted.',
+                          'auctioneer@some.mail', [user.email])
+    send_mass_mail((seller_message, top_bidder_message))
+
+    bidders = []
+    for b in list(auction.bids_set.all()):
+        if b.bidder != user:
+            bidders.append(b.bidder.email)
+        if len(bidders) > 0:
+            bidder_message = ('Auctioneer: You were outbid!',
+                              'Someone outbid you on the auction ' + auction.title + '!',
+                              'auctioneer@some.mail', bidders)
+            send_mass_mail(bidder_message)
+
+
+def bid_validate(user, auction, version, amount):
+    if auction is not None:
+        if not auction.resolved:
+            if user != auction.seller:
+                if version == auction.version:
                     top = list(auction.bids_set.all()[:1])
                     exp = re.compile(r'^\d{1,10}(.\d{0,2})?$')
-                    result = exp.match(request.POST['amount'])
-                    if result is not None and (not top or (top[0].bidder != user and
-                       request.POST['amount'] >= top[0].amount + Decimal('0.01'))) and \
-                            request.POST['amount'] >= auction.startingPrice + Decimal('0.01'):
-                        b = Bids(auction=auction, bidder=user, amount=request.POST['amount'], timestamp=datetime.now())
-                        b.save()
-
-                        seller_message = ('Auctioneer: Bid accepted!!',
-                                          user.username + ' has bid on your auction ' + auction.title + '.',
-                                          'auctioneer@some.mail', [auction.seller.email])
-                        top_bidder_message = ('Auctioneer: Bid accepted!!',
-                                              'Your bid on ' + auction.title + ' has been accepted.',
-                                              'auctioneer@some.mail', [user.email])
-                        send_mass_mail((seller_message, top_bidder_message))
-
-                        bidders = []
-                        for b in list(auction.bids_set.all()):
-                            if b.bidder != user:
-                                bidders.append(b.bidder.email)
-                            if len(bidders) > 0:
-                                bidder_message = ('Auctioneer: You were outbid!',
-                                                  'Someone outbid you on the auction ' + auction.title + '!',
-                                                  'auctioneer@some.mail', bidders)
-                                send_mass_mail(bidder_message)
-
-                        return HttpResponseRedirect('/auctioneer/auctions/'+auction_id+'/')
+                    result = exp.match(amount)
+                    if top:
+                        if top[0].bidder != user:
+                            if result is not None and amount >= top[0].amount + Decimal('0.01'):
+                                return "valid"
+                            else:
+                                return "invalid bid"
+                        else:
+                            return "already top"
                     else:
-                        return render_to_response('message.html', {'title': _('Invalid bid!'),
-                                                                   'is_logged_in': is_logged_in,
-                                                                   'message': _('Your bid is invalid!')},
-                                                  context_instance=RequestContext(request))
+                        if result is not None and amount >= auction.startingPrice + Decimal('0.01'):
+                            return "valid"
+                        else:
+                            return "invalid bid"
                 else:
-                    return render_to_response('bid.html', {'title': _('Bid'), 'is_logged_in': is_logged_in,
-                                                           'message': _('Auction has changed!')},
-                                              context_instance=RequestContext(request))
-            except KeyError:
-                return render_to_response('bid.html', {'title': _('Bid'), 'is_logged_in': is_logged_in,
-                                                       'auction': auction},
-                                          context_instance=RequestContext(request))
-        else:
-            if user == auction.seller:
-                return render_to_response('message.html', {'title': _('Not Allowed!'), 'is_logged_in': is_logged_in,
-                                                           'message': _('Cannot bid on your own auction!')},
-                                          context_instance=RequestContext(request))
+                    return "invalid version"
             else:
-                request.session['version'] = auction.version
-                return render_to_response('bid.html', {'title': _('Bid'), 'is_logged_in': is_logged_in,
-                                                       'auction': auction},
-                                          context_instance=RequestContext(request))
-    else:
-        return render_to_response('message.html', {'title': _('Not found!'), 'is_logged_in': is_logged_in,
-                                                   'message': _('No such auction found!')},
-                                  context_instance=RequestContext(request))
+                return "own auction"
+        else:
+            return "auction resolved"
+    return "invalid auction"

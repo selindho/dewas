@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-03 23:12+0200\n"
+"POT-Creation-Date: 2013-11-04 10:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -107,15 +107,15 @@ msgstr "Auktioner för"
 msgid "Details"
 msgstr "Detaljer"
 
-#: views.py:234 views.py:260 views.py:295 views.py:387
+#: views.py:234 views.py:260 views.py:295 views.py:370
 msgid "Not found!"
 msgstr "Inte hittad!"
 
-#: views.py:235 views.py:261 views.py:296 views.py:388
+#: views.py:235 views.py:261 views.py:296 views.py:371
 msgid "No such auction found!"
 msgstr "Ingen dylik auktion hittad!"
 
-#: views.py:252 templates/details.html:49
+#: views.py:252 templates/details.html:55
 msgid "Edit"
 msgstr "Editera"
 
@@ -131,33 +131,51 @@ msgstr "Åtgärden ej tillåten!"
 msgid "Language"
 msgstr "Språk"
 
-#: views.py:364
+#: views.py:343
 #, fuzzy
 msgid "Invalid bid!"
 msgstr "Felaktiga uppgifter!"
 
-#: views.py:366
+#: views.py:345
 msgid "Your bid is invalid!"
 msgstr "Ogiltigt bud."
 
-#: views.py:369 views.py:373 views.py:383 templates/details.html:53
+#: views.py:350
+msgid "Already high bidder!"
+msgstr "Redan vinnande bjudare!"
+
+#: views.py:352
+msgid "You are already the high bidder!"
+msgstr "Du är redan vinnande bjudare!"
+
+#: views.py:357 views.py:385 templates/details.html:50
 #, fuzzy
 msgid "Bid"
 msgstr "Bud:"
 
-#: views.py:370
+#: views.py:359
 #, fuzzy
 msgid "Auction has changed!"
 msgstr "Auktionen har förändrats!"
 
-#: views.py:378
+#: views.py:364
 #, fuzzy
 msgid "Not Allowed!"
 msgstr "Ej tillåtet!"
 
-#: views.py:379
+#: views.py:365
 msgid "Cannot bid on your own auction!"
 msgstr "Kan inte ge bud på egen auktion."
+
+#: views.py:376
+#, fuzzy
+msgid "Auction resolved!"
+msgstr "Auktion skapad!"
+
+#: views.py:377
+#, fuzzy
+msgid "Auction is already resolved!"
+msgstr "Auktion skapad!"
 
 #: templates/account.html:33
 msgid "Account details for:"
@@ -205,7 +223,7 @@ msgid "Current price:"
 msgstr "Nuvarande pris:"
 
 #: templates/bid.html:40 templates/details.html:41
-#: templates/details.html.py:66
+#: templates/details.html.py:68
 msgid "by:"
 msgstr "av:"
 
@@ -236,9 +254,13 @@ msgstr "Sök"
 msgid "Results for:"
 msgstr "Resultat för:"
 
-#: templates/browse.html:51
+#: templates/browse.html:51 templates/details.html:34 templates/main.html:38
 msgid "[BANNED]"
 msgstr "[BANNAD]"
+
+#: templates/browse.html:51 templates/details.html:34 templates/main.html:38
+msgid "[RESOLVED]"
+msgstr "[AVSLUTAD]"
 
 #: templates/browse.html:60 templates/main.html:47
 msgid "Start date:"
@@ -312,15 +334,15 @@ msgstr "OBS: Minsta tillåtna auktionstid är 3 dagar (72h)"
 msgid "Create"
 msgstr "Skapa"
 
-#: templates/details.html:58
+#: templates/details.html:60
 msgid "Ban"
 msgstr "Banna"
 
-#: templates/details.html:65
+#: templates/details.html:67
 msgid "Bid:"
 msgstr "Bud:"
 
-#: templates/details.html:71
+#: templates/details.html:73
 msgid "No bids!"
 msgstr "Inga bud!"
 

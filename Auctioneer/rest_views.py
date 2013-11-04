@@ -17,6 +17,10 @@ class AuctionsSerializer(serializers.ModelSerializer):
         fields = ('seller', 'title', 'description', 'startingPrice', 'startDate', 'stopDate')
 
 
+class BidsSerializer(serializers.Serializer):
+    amount = serializers.DecimalField(max_digits=12, decimal_places=2, min_value=0)
+
+
 class JSONResponse(HttpResponse):
     """
     An HttpResponse that renders its content into JSON.
@@ -37,22 +41,35 @@ def rest_auctions(request, query):
                 serializer = AuctionsSerializer(result, many=True)
                 return JSONResponse(serializer.data)
             else:
-                return JSONResponse({'error': 'no results'}, status=200)
+                return JSONResponse({"error": "no results"}, status=200)
         else:
             result = Auctions.get_by_query(query)
             if result is not None:
                 serializer = AuctionsSerializer(result, many=True)
                 return JSONResponse(serializer.data)
             else:
-                return JSONResponse({'error': 'no results'}, status=200)
+                return JSONResponse({"error": "no results"}, status=200)
+    else:
+        return JSONResponse({"error": "only method=get supported"}, status=200)
 
 
-def rest_bids(request):
+@csrf_exempt
+def rest_bids(request, auction_id):
 
     if request.method == 'POST':
         # Authenticate user
         if 'HTTP_AUTHORIZATION' in request.META:
             auth = request.META['HTTP_AUTHORIZATION'].partition(' ')
             clear_text = base64.b64decode(auth[2])
-            split = str(clear_text, 'UTF-8').partition(':')
+            split = str(clear_text).partition(':')
             user = authenticate(username=split[0], password=split[2])
+            if user is not None:
+                return JSONResponse(user.username, status=200)
+
+            else:
+                return JSONResponse({"error": "invalid credentials"}, status=200)
+
+        else:
+            return JSONResponse({"error": "authorization required"}, status=200)
+    else:
+        return JSONResponse({"error": "only method=post supported"}, status=200)

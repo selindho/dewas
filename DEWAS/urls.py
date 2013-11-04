@@ -17,23 +17,24 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     # Main UI
-    url(r'^auctioneer/$', home),
-    url(r'^auctioneer/home/$', home),
-    url(r'^auctioneer/auctions/$', browse),
-    url(r'^auctioneer/signup/$', sign_up),
-    url(r'^auctioneer/account/$', account),
-    url(r'^auctioneer/account/auctions/$', auctions),
-    url(r'^auctioneer/login/$', auth),
+    url(r'^auctioneer/?$', home),
+    url(r'^auctioneer/home/?$', home),
+    url(r'^auctioneer/auctions/?$', browse),
+    url(r'^auctioneer/signup/?$', sign_up),
+    url(r'^auctioneer/account/?$', account),
+    url(r'^auctioneer/account/auctions/?$', auctions),
+    url(r'^auctioneer/login/?$', auth),
     url(r'^auctioneer/logout/$', leave),
-    url(r'^auctioneer/auctions/(?P<auction_id>\d+)/$', details),
-    url(r'^auctioneer/auctions/create/$', create),
-    url(r'^auctioneer/auctions/confirm/$', confirm),
-    url(r'^auctioneer/auctions/(?P<auction_id>\d+)/edit/$', edit),
-    url(r'^auctioneer/auctions/(?P<auction_id>\d+)/ban/$', ban),
-    url(r'^auctioneer/language/$', language),
-    url(r'^auctioneer/auctions/(?P<auction_id>\d+)/bid/$', bid),
+    url(r'^auctioneer/auctions/(?P<auction_id>\d+)/?$', details),
+    url(r'^auctioneer/auctions/create/?$', create),
+    url(r'^auctioneer/auctions/confirm/?$', confirm),
+    url(r'^auctioneer/auctions/(?P<auction_id>\d+)/edit/?$', edit),
+    url(r'^auctioneer/auctions/(?P<auction_id>\d+)/ban/?$', ban),
+    url(r'^auctioneer/language/?$', language),
+    url(r'^auctioneer/auctions/(?P<auction_id>\d+)/bid/?$', bid),
 
     # RESTful interface
-    url(r'^auctioneer/api/auctions/(?P<query>\d+)?$', rest_auctions)
+    url(r'^auctioneer/api/auctions/(?P<query>\w+)?/?$', rest_auctions),
+    url(r'^auctioneer/api/auctions/(?P<auction_id>\d+)/bid/?$', rest_bids)
 
 )

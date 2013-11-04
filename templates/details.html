@@ -31,7 +31,7 @@
 
                 {% with content as auction %}
                 <div>
-                    <h3>{{ auction.title }}{% if auction.banned %} [BANNED]{% endif %}</h3>
+                    <h3>{{ auction.title }}{% if auction.banned %} {% trans "[BANNED]" %}{% endif %}{% if auction.resolved %} {% trans "[RESOLVED]" %}{% endif %}</h3>
                     <p>{% trans "Created by:" %} {{ auction.seller }}</p>
                     <p>{% trans "Deadline:" %} {{ auction.stopDate }}</p>
                     <p>{% trans "Description:" %} {{ auction.description }}</p>
@@ -44,13 +44,15 @@
                     <h3>{% trans "Current price:" %} {{ auction.startingPrice }} EUR</h3>
                     {% endif %}
                     {% endwith %}
-                    {% if seller %}
-                    <form action="/auctioneer/auctions/{{ auction.id }}/edit/" method="get">
-                        <input type="submit" class="button" value={% trans "Edit" %}>
-                    </form>
-                    {% else %}
+                    {% if not seller %}
+                    {% if not auction.resolved %}
                     <form action="/auctioneer/auctions/{{ auction.id }}/bid/" method="get">
                         <input type="submit" class="button" value={% trans "Bid" %}>
+                    </form>
+                    {% endif %}
+                    {% else %}
+                    <form action="/auctioneer/auctions/{{ auction.id }}/edit/" method="get">
+                        <input type="submit" class="button" value={% trans "Edit" %}>
                     </form>
                     {% endif %}
                     {% if admin %}
