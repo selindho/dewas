@@ -73,10 +73,18 @@ def rest_bids(request, auction_id):
                 serializer = BidsSerializer(data=data)
                 if serializer.is_valid():
                     auction = Auctions.get_by_id(auction_id)
-                    amount = serializer.object.get('amount')
+                    amount = str(serializer.object.get('amount'))
                     if auction is not None:
-                        status = bid_validate(user, auction, auction.version, str(amount))
-                        return JSONResponse(status, status=200)
+                        status = bid_validate(user, auction, auction.version, amount)
+
+                        if status == 'valid':
+                            b = Bids(auction=auction, bidder=user, amount=amount, timestamp=datetime.now())
+                            b.save()
+                            bid_send_mail(user, auction)
+                            return JSONResponse({"success": "bid placed"}, status=200)
+
+                        else:
+                            return JSONResponse({"error": status}, status=200)
                     else:
                         return JSONResponse({"error": "auction not found"}, status=200)
 
