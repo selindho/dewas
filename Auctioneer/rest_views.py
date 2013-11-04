@@ -6,6 +6,7 @@ from rest_framework.parsers import JSONParser
 from django.contrib.auth import login, logout, authenticate
 import base64
 from django.views.decorators.csrf import csrf_exempt
+from Auctioneer.views import bid_send_mail, bid_validate
 
 
 class AuctionsSerializer(serializers.ModelSerializer):
@@ -64,7 +65,15 @@ def rest_bids(request, auction_id):
             split = str(clear_text).partition(':')
             user = authenticate(username=split[0], password=split[2])
             if user is not None:
-                return JSONResponse(user.username, status=200)
+                try:
+                    data = JSONParser.parse(request)
+                    serializer = BidsSerializer(data=data)
+                    if serializer.is_valid():
+                        print serializer.amount
+                    return JSONResponse(serializer.amount, status=200)
+
+                except:
+                    return JSONResponse({"error": "failed to parse request"}, status=200)
 
             else:
                 return JSONResponse({"error": "invalid credentials"}, status=200)
